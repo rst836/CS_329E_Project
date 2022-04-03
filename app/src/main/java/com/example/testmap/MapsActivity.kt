@@ -10,11 +10,26 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.testmap.databinding.ActivityMapsBinding
+import org.json.JSONObject
+import java.net.HttpURLConnection
+import java.net.URL
+import java.net.URLEncoder
+import java.util.*
+import khttp.*
+import khttp.responses.Response
+import org.json.JSONArray
+import kotlin.collections.HashMap
+import kotlin.concurrent.thread
+
+import kotlin.math.round
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+    private val GUID = UUID.randomUUID().toString()
+
+    private var birdsToDisplay = mutableListOf<Map<Any, Any>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,4 +60,47 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
+
+
+    // the camera stopped moving after some motion by the user
+    // send the current location
+    fun onCameraMoveCanceled() {
+        // When the camera stops moving, add its target to the current path, and draw it on the map.
+    }
+
+    private fun getNearbyBirds(lat:Float, long:Float, rad:Int) {
+        val latRounded = Math.round(lat * 100000.0) / 100000.0
+        val longRounded = Math.round(long * 100000.0) / 100000.0
+
+        val location:Map<String, String> = mapOf("latitude" to latRounded.toString(), "longitude" to longRounded.toString(), "radius" to rad.toString())
+
+        val headers:Map<String, String> = mapOf("location" to JSONObject(location).toString(), "Device-Id" to GUID)
+
+        var reqParams = ""
+
+        for (key in location.keys){
+            if (reqParams != "") {
+                reqParams += "&"
+            }
+            reqParams += URLEncoder.encode(key, "UTF-8") + "=" + URLEncoder.encode(location[key], "UTF-8")
+        }
+
+        val r:Response = khttp.get(url="https://api-bird.prod.birdapp.com/bird/nearby?" + reqParams,
+            headers=headers)
+
+
+        val nearbyBirds:JSONArray = r.jsonObject.getJSONArray("birds")
+
+        // clear birdsToDisplay
+        birdsToDisplay = mutableListOf<Map<Any, Any>>()
+
+        // push all nearbyBirds to birdsToDisplay
+
+        for (i in 0..nearbyBirds.length()) {
+            var bird = nearbyBirds.getJSONObject(i).toMap()
+            birdsToDisplay.add(bird)
+        }
+
+    }
+
 }
