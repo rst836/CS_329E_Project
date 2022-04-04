@@ -47,7 +47,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         // Add a marker in Sydney and move the camera
         val icon = BitmapDescriptorFactory.fromResource(R.drawable.scooter)
         val austin = LatLng(30.2849, -97.7341)
+        val austin2 = LatLng(30.2851, -97.7341)
+        val austin3 = LatLng(30.2851, -97.7339)
         mMap.addMarker(MarkerOptions().position(austin).title("Marker in Austin").icon(icon))
+        mMap.addMarker(MarkerOptions().position(austin2).title("Marker in Austin").icon(icon))
+        mMap.addMarker(MarkerOptions().position(austin3).title("Marker in Austin").icon(icon))
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(austin, 18f))
         mMap.setOnMarkerClickListener { marker ->
             val fragment = ScooterSelect.newInstance()
