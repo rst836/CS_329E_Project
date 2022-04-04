@@ -1,7 +1,6 @@
 package com.example.testmap
 
-import com.example.testmap.network.interfaces.*
-
+import com.example.testmap.network.interfaces.BirdInterface
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -30,7 +29,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMapsBinding
     private val GUID = UUID.randomUUID().toString()
 
-    private val BirdInterface = BirdInterface.create()
+    private val birdInterface = BirdInterface.create()
     private var birdsToDisplay = mutableListOf<Map<Any, Any>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,20 +77,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val headers:Map<String, String> = mapOf("location" to JSONObject(location).toString(), "Device-Id" to GUID)
 
-        var reqParams = ""
+        val nearbyBirds = listOf(1)
 
-        for (key in location.keys){
-            if (reqParams != "") {
-                reqParams += "&"
-            }
-            reqParams += URLEncoder.encode(key, "UTF-8") + "=" + URLEncoder.encode(location[key], "UTF-8")
-        }
-
-        val r:Response = khttp.get(url="https://api-bird.prod.birdapp.com/bird/nearby?" + reqParams,
-            headers=headers)
-
-
-        val nearbyBirds:JSONArray = r.jsonObject.getJSONArray("birds")
+        /*
+        make the API call and store in val nearbyBirds
+         */
 
         // clear birdsToDisplay
         birdsToDisplay = mutableListOf<Map<Any, Any>>()
