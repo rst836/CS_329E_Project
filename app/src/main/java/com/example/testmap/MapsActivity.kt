@@ -1,5 +1,8 @@
 package com.example.testmap
 
+import com.example.testmap.network.interfaces.*
+
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -15,8 +18,6 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
 import java.util.*
-import khttp.*
-import khttp.responses.Response
 import org.json.JSONArray
 import kotlin.collections.HashMap
 import kotlin.concurrent.thread
@@ -29,6 +30,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMapsBinding
     private val GUID = UUID.randomUUID().toString()
 
+    private val BirdInterface = BirdInterface.create()
     private var birdsToDisplay = mutableListOf<Map<Any, Any>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
