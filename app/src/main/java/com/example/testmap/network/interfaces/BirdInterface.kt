@@ -22,14 +22,16 @@ interface BirdInterface {
     ) : Call<NearbyScooterResponse>
 
     companion object {
-        private const val baseURL = "https://api-bird.prod.birdapp.com/"
+        private const val apiURL = "https://api-bird.prod.birdapp.com/"
         private val GUID = UUID.randomUUID();
-        private var access = "";
+        private var access = ""
         private var refresh = ""
+        //private val aut_url = "https://api-auth.prod.birdapp.com/api/v1/auth/"
+
 
         fun create() : BirdInterface {
             val retrofit = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create()).baseUrl(baseURL).build()
+                .addConverterFactory(GsonConverterFactory.create()).baseUrl(apiURL).build()
             return retrofit.create(BirdInterface::class.java)
         }
 
