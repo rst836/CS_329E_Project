@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -71,6 +72,31 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         inflater.inflate(R.menu.settings_menu,menu)
 
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.item4 -> {
+                val fragment = Feedback.newInstance()
+                val fm = supportFragmentManager
+                val ft = fm.beginTransaction()
+                ft.replace(R.id.map, fragment)
+                ft.addToBackStack(null);
+                ft.commit()
+                true
+            }
+            R.id.item2 -> {
+                val fragment = History.newInstance()
+                val fm = supportFragmentManager
+                val ft = fm.beginTransaction()
+                ft.replace(R.id.map, fragment)
+                ft.addToBackStack(null);
+                ft.commit()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 }
