@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">testMap</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Sample Scooter Info View\n\n
+    Tap to go back</string>
+    <string name="feedback">Sample Feedback View\n\n
+    Tap to go back</string>
+    <string name="history">Sample History View\n\n
+    Tap to go back</string>
 </resources>
