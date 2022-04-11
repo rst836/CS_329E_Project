@@ -69,7 +69,7 @@ object BirdHttpClient {
     }
 
     fun getNearbyScooters(location: LatLng, radius:Int): BirdsResult? {
-        refreshTokens()
+//        refreshTokens()
         val req = getNearbyRequest(location, radius)
         client.newCall(req).execute().use { res ->
             if (!res.isSuccessful) throw IOException("Unexpected code $res")
