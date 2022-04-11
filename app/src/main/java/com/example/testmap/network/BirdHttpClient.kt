@@ -70,11 +70,17 @@ object BirdHttpClient {
 
     fun getNearbyScooters(location: LatLng, radius:Int): BirdsResult? {
 //        refreshTokens()
-        val req = getNearbyRequest(location, radius)
-        client.newCall(req).execute().use { res ->
-            if (!res.isSuccessful) throw IOException("Unexpected code $res")
-            return gson.fromJson(res.body!!.string(), BirdsResult::class.java)
+
+        if (access != "") {
+            val req = getNearbyRequest(location, radius)
+
+
+            client.newCall(req).execute().use { res ->
+                if (!res.isSuccessful) throw IOException("Unexpected code $res")
+                return gson.fromJson(res.body!!.string(), BirdsResult::class.java)
+            }
         }
+        return BirdsResult(listOf(mapOf("a" to "b")))
 
     }
 
@@ -120,20 +126,20 @@ object BirdHttpClient {
         return true
     }
 
-    private fun getElevation(lat:Double, lng:Double) : Number? {
-        val req = Request.Builder()
-            .url("$elevationEndpoint?locations=${"%.5f".format(lat)},${"%.5f".format(lng)}")
-            .build()
-
-        client.newCall(req).execute().use {res ->
-            if (!res.isSuccessful) throw IOException("Unexpected code $res")
-
-            val result:ElevationResult = gson.fromJson(res.body!!.string(), ElevationResult::class.java)
-
-            return result.results[0]["elevation"]
-        }
-
-    }
+//    private fun getElevation(lat:Double, lng:Double) : Number? {
+//        val req = Request.Builder()
+//            .url("$elevationEndpoint?locations=${"%.5f".format(lat)},${"%.5f".format(lng)}")
+//            .build()
+//
+//        client.newCall(req).execute().use {res ->
+//            if (!res.isSuccessful) throw IOException("Unexpected code $res")
+//
+//            val result:ElevationResult = gson.fromJson(res.body!!.string(), ElevationResult::class.java)
+//
+//            return result.results[0]["elevation"]
+//        }
+//
+//    }
 
     private fun getNearbyRequest(location:LatLng, radius:Number) : Request {
         val lat = location.latitude
@@ -142,7 +148,7 @@ object BirdHttpClient {
         val latStr = "%.5f".format(lat)
         val lngStr = "%.5f".format(lng)
 
-        var altitude:Number? = getElevation(lat, lng)
+        var altitude:Number? = 50
         if (altitude == null) {
             altitude = 0
         }
