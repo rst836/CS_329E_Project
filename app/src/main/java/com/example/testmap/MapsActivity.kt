@@ -17,10 +17,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.testmap.databinding.ActivityMapsBinding
+import com.example.testmap.network.BirdsResult
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
     private val DEMO_EMAIL = "mariojjuguilon@gmail.com"
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
@@ -81,6 +82,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         ft.add(R.id.map, tokenFragment)
         ft.addToBackStack(null);
         ft.commit()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -112,6 +114,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onCameraIdle() {
+        val loc:LatLng = LatLng(30.2849, -97.7341)
+        val result:BirdsResult? = birdClient.getNearbyScooters(loc, 100)
+
+        var tempList = mutableListOf<Any>()
+        if (result != null) {
+            val birds = result.birds
+            for (bird:Map<String, Any> in birds) {
+                var l = bird["location"]
+
+                var nextLatLng = LatLng()
+            }
+
         }
     }
 
