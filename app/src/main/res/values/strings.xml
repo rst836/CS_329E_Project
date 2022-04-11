@@ -6,6 +6,7 @@
     Tap to go back</string>
     <string name="feedback">Sample Feedback View\n\n
     Tap to go back</string>
-    <string name="history">Sample History View\n\n
-    Tap to go back</string>
+    <string name="history">No recent history!!</string>
+    <string name="contactus">Please contact us for any questions or concerns at:\n\n
+    scooterapp123@gmail.com</string>
 </resources>

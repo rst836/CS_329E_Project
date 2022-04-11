@@ -95,6 +95,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 ft.commit()
                 true
             }
+            R.id.item5 -> {
+                val fragment = ContactUs.newInstance()
+                val fm = supportFragmentManager
+                val ft = fm.beginTransaction()
+                ft.replace(R.id.map, fragment)
+                ft.addToBackStack(null);
+                ft.commit()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
