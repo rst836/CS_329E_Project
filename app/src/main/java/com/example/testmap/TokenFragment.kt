@@ -16,7 +16,6 @@ class TokenFragment: Fragment(R.layout.token) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val view = inflater.inflate(R.layout.token, container, false)
 
         val btn: Button = view.findViewById<Button>(R.id.token_button)
@@ -26,7 +25,7 @@ class TokenFragment: Fragment(R.layout.token) {
             BirdHttpClient.secondAuthPost(token)
             activity?.supportFragmentManager?.popBackStack()
         }
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return view
     }
 
     companion object {

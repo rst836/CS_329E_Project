@@ -49,7 +49,6 @@ object BirdHttpClient {
     }
 
     fun secondAuthPost (token:String):Boolean {
-
         val req = getSecondAuthRequest("/magic-link/use", token)
         print("secondAuthPost req: $req")
 
@@ -108,12 +107,15 @@ object BirdHttpClient {
     }
 
     private fun unpackTokens(res: Response):Boolean {
+        println("unpackTokens...")
         val tokens: BirdAuthTokens =
             gson.fromJson(res.body!!.string(), BirdAuthTokens::class.java)
 
         // unpack tokens
         refresh = tokens.refresh
         access = tokens.access
+
+        println("tokens unpacked: $refresh $access")
         expires = (System.currentTimeMillis() / 1000L) + (60 * 60 * 24);
         return true
     }
