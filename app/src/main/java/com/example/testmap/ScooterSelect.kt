@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 
 
 /**
@@ -23,7 +24,7 @@ class ScooterSelect : Fragment() {
         val view = inflater.inflate(R.layout.fragment_scooter_select, container, false)
         view.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent): Boolean {
-                val fm = activity?.supportFragmentManager?.popBackStack()
+                activity?.supportFragmentManager?.popBackStack()
                 return true
             }
         })

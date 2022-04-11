@@ -14,17 +14,29 @@
         android:background="#68000000">
 
         <TextView
-            android:layout_width="405dp"
+            android:id="@+id/textView"
+            android:layout_width="300dp"
             android:layout_height="200dp"
-            android:layout_marginTop="200dp"
-            android:backgroundTint="#1C1B1B"
+            android:background="@drawable/share_rounded_corner_with_border"
+            android:backgroundTint="#FFFFFF"
             android:text="@string/hello_blank_fragment"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="150dp"
+            android:layout_marginBottom="-180dp"
+            android:text="Ride"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
