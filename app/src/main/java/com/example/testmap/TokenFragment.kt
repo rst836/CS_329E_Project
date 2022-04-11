@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.example.testmap.network.BirdHttpClient
 
-class TokenFragment: Fragment() {
+class TokenFragment: Fragment(R.layout.token) {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,13 +24,15 @@ class TokenFragment: Fragment() {
             val tokenInputElem: TextInputEditText = view.findViewById(R.id.token_input)
             val token = tokenInputElem.text.toString()
             BirdHttpClient.secondAuthPost(token)
-            val fm = activity?.supportFragmentManager?.popBackStack()
+            activity?.supportFragmentManager?.popBackStack()
         }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = TokenFragment().apply{}
+        fun newInstance() = TokenFragment().apply{
+
+        }
     }
 }

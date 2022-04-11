@@ -70,7 +70,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             true
         }
 
-
         val email = DEMO_EMAIL;
         var authSuccess = birdClient.firstAuthPost(email)
 
@@ -79,7 +78,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val fm = supportFragmentManager
         val tokenFragment = TokenFragment.newInstance()
         val ft = fm.beginTransaction()
-        ft.replace(R.id.map, tokenFragment)
+        ft.add(R.id.map, tokenFragment)
         ft.addToBackStack(null);
         ft.commit()
     }
