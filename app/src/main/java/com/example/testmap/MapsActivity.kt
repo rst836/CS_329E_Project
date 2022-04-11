@@ -130,16 +130,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         val loc:LatLng = LatLng(30.2849, -97.7341)
         val result:BirdsResult? = birdClient.getNearbyScooters(loc, 100)
 
-        var tempList = mutableListOf<Any>()
+        var tempList = mutableListOf<LatLng>()
         if (result != null) {
             val birds = result.birds
             for (bird:Map<String, Any> in birds) {
-                var l = bird["location"]
-
-                var nextLatLng = LatLng()
+                var l:Map<String, Float> = bird["location"] as Map<String, Float>
+                var nextLatLng = LatLng(l["latitude"]as Double, l["longitude"]as Double)
+                tempList.add(nextLatLng)
             }
-
         }
+        println(tempList[0].toString())
     }
 
 }
