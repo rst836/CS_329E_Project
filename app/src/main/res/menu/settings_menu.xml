@@ -30,6 +30,11 @@
             android:title="Feedback"
             app:showAsAction="never" />
 
+    <item android:id="@+id/item5"
+        android:title="Contact Us"
+        app:showAsAction="never" />
+
+
 
 </menu>
 
