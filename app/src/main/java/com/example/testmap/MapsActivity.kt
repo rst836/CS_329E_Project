@@ -1,6 +1,6 @@
 package com.example.testmap
 
-import com.example.testmap.network.BirdHttpClient
+//import com.example.testmap.network.BirdHttpClient
 
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
@@ -22,10 +22,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
-    private val DEMO_EMAIL = "mariojjuguilon@gmail.com"
+
+//    private val DEMO_EMAIL = "mariojjuguilon@gmail.com"
+
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private val birdClient = BirdHttpClient;
+//    private val birdClient = BirdHttpClient;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,18 +72,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             ft.commit()
             true
         }
+//        mMap.setOnCameraIdleListener(this@MapsActivity)
+//        val email = DEMO_EMAIL;
+//        var authSuccess = birdClient.firstAuthPost(email)
 
-        val email = DEMO_EMAIL;
-        var authSuccess = birdClient.firstAuthPost(email)
+//        println("First step success: $authSuccess")
 
-        println("First step success: $authSuccess")
-
-        val fm = supportFragmentManager
-        val tokenFragment = TokenFragment.newInstance()
-        val ft = fm.beginTransaction()
-        ft.add(R.id.map, tokenFragment)
-        ft.addToBackStack(null);
-        ft.commit()
+//        val fm = supportFragmentManager
+//        val tokenFragment = TokenFragment.newInstance()
+//        val ft = fm.beginTransaction()
+//        ft.add(R.id.map, tokenFragment)
+//        ft.addToBackStack(null);
+//        ft.commit()
 
     }
 
@@ -127,18 +129,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
 //    override fun onCameraIdle() {
+//        println("oncameraidle called")
 //        val loc:LatLng = LatLng(30.2849, -97.7341)
 //        val result:BirdsResult? = birdClient.getNearbyScooters(loc, 100)
 //
-//        var tempList = mutableListOf<Any>()
+//        var tempList = mutableListOf<LatLng>()
 //        if (result != null) {
 //            val birds = result.birds
 //            for (bird:Map<String, Any> in birds) {
-//                var l = bird["location"]
-//
-//                var nextLatLng = LatLng()
+//                var l:Map<String, Float> = bird["location"] as Map<String, Float>
+//                var nextLatLng = LatLng(l["latitude"]as Double, l["longitude"]as Double)
+//                tempList.add(nextLatLng)
+//                println("nextlatlng: $nextLatLng")
 //            }
-//
 //        }
 //    }
 
