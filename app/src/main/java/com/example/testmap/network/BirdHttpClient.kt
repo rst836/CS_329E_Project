@@ -7,6 +7,7 @@ import com.google.gson.Gson
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 
 object BirdHttpClient {
     private val GUID = UUID.randomUUID()
@@ -68,12 +69,13 @@ object BirdHttpClient {
         return true
     }
 
-    fun getNearbyScooters(location: LatLng, radius:Int): BirdsResult? {
+    fun getNearbyScooters(location: LatLng, radius:Int): JSONObject? {
 //        refreshTokens()
         val req = getNearbyRequest(location, radius)
         client.newCall(req).execute().use { res ->
             if (!res.isSuccessful) throw IOException("Unexpected code $res")
-            return gson.fromJson(res.body!!.string(), BirdsResult::class.java)
+            val bodyString:String = res.body!!.toString()
+            return JSONObject(bodyString)
         }
 
     }

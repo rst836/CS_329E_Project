@@ -20,6 +20,7 @@ import com.example.testmap.databinding.ActivityMapsBinding
 import com.example.testmap.network.BirdsResult
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
+import org.json.JSONObject
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
     private val DEMO_EMAIL = "mariojjuguilon@gmail.com"
@@ -128,16 +129,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
 
     override fun onCameraIdle() {
         val loc:LatLng = LatLng(30.2849, -97.7341)
-        val result:BirdsResult? = birdClient.getNearbyScooters(loc, 100)
+        val result:JSONObject? = birdClient.getNearbyScooters(loc, 100)
 
         var tempList = mutableListOf<Any>()
         if (result != null) {
-            val birds = result.birds
-            for (bird:Map<String, Any> in birds) {
-                var l = bird["location"]
+            val birds = result.getJSONArray("birds")
 
-                var nextLatLng = LatLng()
+            for (i in 0..birds.length()) {
+                val b:JSONObject = birds.get(i) as JSONObject
+
+                val l = b.get("location") as Map<String, Number>
+
+
             }
+
 
         }
     }
