@@ -1,5 +1,7 @@
 package com.example.testmap
 
+import com.example.testmap.network.BirdHttpClient
+
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,9 +21,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
-
+    private val DEMO_EMAIL = "mariojjuguilon@gmail.com"
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+    private val birdClient = BirdHttpClient;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +36,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
     }
 
     /**
@@ -65,6 +69,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             ft.commit()
             true
         }
+
+
+        val email = DEMO_EMAIL;
+        var authSuccess = birdClient.firstAuthPost(email)
+
+        println("First step success: $authSuccess")
+
+        val fm = supportFragmentManager
+        val tokenFragment = TokenFragment.newInstance()
+        val ft = fm.beginTransaction()
+        ft.replace(R.id.map, tokenFragment)
+        ft.addToBackStack(null);
+        ft.commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
