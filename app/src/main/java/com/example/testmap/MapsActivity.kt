@@ -67,6 +67,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             val fragment = ScooterSelect.newInstance()
             val fm = supportFragmentManager
             val ft = fm.beginTransaction()
+            ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out);
             ft.replace(R.id.map, fragment)
             ft.addToBackStack(null);
             ft.commit()
