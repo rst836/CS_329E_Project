@@ -2,13 +2,11 @@ package com.example.testmap
 
 //import com.example.testmap.network.BirdHttpClient
 
-import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toast
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -17,9 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.testmap.databinding.ActivityMapsBinding
-import com.example.testmap.network.BirdsResult
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.Marker
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -118,6 +114,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             R.id.item5 -> {
                 val fragment = ContactUs.newInstance()
+                val fm = supportFragmentManager
+                val ft = fm.beginTransaction()
+                ft.replace(R.id.map, fragment)
+                ft.addToBackStack(null);
+                ft.commit()
+                true
+            }
+            R.id.item6 -> {
+                val fragment = ManageAccountFragment.newInstance()
                 val fm = supportFragmentManager
                 val ft = fm.beginTransaction()
                 ft.replace(R.id.map, fragment)
