@@ -115,11 +115,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     }
 
     override fun onCameraIdle() {
-        println("oncameraidle called")
         val icon = BitmapDescriptorFactory.fromResource(R.drawable.scooter)
 
         val loc:LatLng = mMap.cameraPosition.target
         val rad = SphericalUtil.computeDistanceBetween(mMap.projection.visibleRegion.farLeft, loc)
+
         BirdHttpClient.subscribe(object: BirdListener {
             override fun onUpdateResults() {
                 val birds:JSONArray? = BirdHttpClient.results?.getJSONArray("birds")
@@ -131,6 +131,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                     birdsList.add(gson.fromJson(obj.toString(), BirdScooter::class.java))
                 }
                 runOnUiThread {
+                    markers.map { it?.remove() }
                     markers.clear()
                     for (bird:BirdScooter in birdsList) {
                         val location = LatLng(bird.location.get("latitude") as Double, bird.location.get("longitude") as Double)
