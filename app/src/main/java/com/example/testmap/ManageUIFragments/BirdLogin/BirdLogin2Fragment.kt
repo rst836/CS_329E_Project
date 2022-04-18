@@ -1,6 +1,7 @@
-package com.example.testmap
+package com.example.testmap.ManageUIFragments.BirdLogin
 
 import androidx.fragment.app.Fragment
+import com.example.testmap.R
 
 class BirdLogin2Fragment:Fragment(R.layout.fragment_bird_login2) {
 }

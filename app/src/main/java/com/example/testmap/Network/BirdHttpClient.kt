@@ -93,12 +93,14 @@ object BirdHttpClient {
         client.newCall(req).enqueue(object: Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
+                observers.clear()
             }
 
             override fun onResponse(call: Call, res: Response) {
                 res.use {
                     unpackTokens(res)
                     println(res)
+                    observers.clear()
                 }
             }
         })
@@ -106,20 +108,25 @@ object BirdHttpClient {
         return true
     }
 
-    fun getNearbyScooters(location: LatLng, radius:Int): BirdsResult? {
+    fun getNearbyScooters(location: LatLng, radius:Number) {
 //        refreshTokens()
-
         if (access != "") {
             val req = getNearbyRequest(location, radius)
+            client.newCall(req).enqueue(object:Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    e.printStackTrace()
+                }
+                override fun onResponse(call:Call, response:Response) {
+                    response.use {
+                        val bodyString:String = response.body!!.string()
+                        println(bodyString)
+                        results = JSONObject(bodyString)
+                        observers.clear()
+                    }
+                }
+            })
 
-
-            client.newCall(req).execute().use { res ->
-                if (!res.isSuccessful) throw IOException("Unexpected code $res")
-                return gson.fromJson(res.body!!.string(), BirdsResult::class.java)
-            }
         }
-        return BirdsResult(listOf(mapOf("a" to "b")))
-
     }
 
     private fun getFirstAuthRequest(endpoint:String, email:String): Request {

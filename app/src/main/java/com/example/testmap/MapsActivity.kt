@@ -1,12 +1,14 @@
 package com.example.testmap
 
-//import com.example.testmap.network.BirdHttpClient
-
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import com.example.testmap.ManageUIFragments.ManageAccountFragment
+import com.example.testmap.Network.BirdHttpClient
+import com.example.testmap.Network.BirdListener
+import com.example.testmap.Network.BirdScooter
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -16,14 +18,20 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.testmap.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.Marker
+import com.google.maps.android.SphericalUtil
+import org.json.JSONArray
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
+import kotlinx.coroutines.runBlocking
+import org.json.JSONObject
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
-
-//    private val DEMO_EMAIL = "mariojjuguilon@gmail.com"
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-//    private val birdClient = BirdHttpClient;
+
+    private val gson = GsonBuilder().create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,38 +57,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
-        // Add a marker in Sydney and move the camera
-        val icon = BitmapDescriptorFactory.fromResource(R.drawable.scooter)
-        val austin = LatLng(30.2849, -97.7341)
-        val austin2 = LatLng(30.2851, -97.7341)
-        val austin3 = LatLng(30.2851, -97.7339)
-        mMap.addMarker(MarkerOptions().position(austin).title("Marker in Austin").icon(icon))
-        mMap.addMarker(MarkerOptions().position(austin2).title("Marker in Austin").icon(icon))
-        mMap.addMarker(MarkerOptions().position(austin3).title("Marker in Austin").icon(icon))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(austin, 18f))
-        mMap.setOnMarkerClickListener { marker ->
-            val fragment = ScooterSelect.newInstance()
-            val fm = supportFragmentManager
-            val ft = fm.beginTransaction()
-            ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out);
-            ft.replace(R.id.map, fragment)
-            ft.addToBackStack(null);
-            ft.commit()
-            true
-        }
-//        mMap.setOnCameraIdleListener(this@MapsActivity)
-//        val email = DEMO_EMAIL;
-//        var authSuccess = birdClient.firstAuthPost(email)
-
-//        println("First step success: $authSuccess")
-
-//        val fm = supportFragmentManager
-//        val tokenFragment = TokenFragment.newInstance()
-//        val ft = fm.beginTransaction()
-//        ft.add(R.id.map, tokenFragment)
-//        ft.addToBackStack(null);
-//        ft.commit()
+        mMap.setOnCameraIdleListener(this@MapsActivity)
 
     }
 
@@ -134,21 +111,45 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-//    override fun onCameraIdle() {
-//        println("oncameraidle called")
-//        val loc:LatLng = LatLng(30.2849, -97.7341)
-//        val result:BirdsResult? = birdClient.getNearbyScooters(loc, 100)
-//
-//        var tempList = mutableListOf<LatLng>()
-//        if (result != null) {
-//            val birds = result.birds
-//            for (bird:Map<String, Any> in birds) {
-//                var l:Map<String, Float> = bird["location"] as Map<String, Float>
-//                var nextLatLng = LatLng(l["latitude"]as Double, l["longitude"]as Double)
-//                tempList.add(nextLatLng)
-//                println("nextlatlng: $nextLatLng")
-//            }
-//        }
-//    }
+    override fun onCameraIdle() {
+        println("oncameraidle called")
+        val icon = BitmapDescriptorFactory.fromResource(R.drawable.scooter)
+
+        val loc:LatLng = mMap.cameraPosition.target
+        val rad = SphericalUtil.computeDistanceBetween(mMap.projection.visibleRegion.farLeft, loc)
+        BirdHttpClient.subscribe(object: BirdListener {
+            override fun onUpdateResults() {
+                val birds:JSONArray? = BirdHttpClient.results?.getJSONArray("birds")
+                val birdsList = mutableListOf<BirdScooter>()
+                val jsonLength = birds?.length() as Int
+                println("number of scooters found: $jsonLength")
+                for (i in 0 until jsonLength) {
+                    val obj = birds.getJSONObject(i)
+                    birdsList.add(gson.fromJson(obj.toString(), BirdScooter::class.java))
+                }
+                runOnUiThread {
+                    for (bird:BirdScooter in birdsList) {
+                        var location = LatLng(bird.location.get("latitude") as Double, bird.location.get("longitude") as Double)
+                        mMap.addMarker(MarkerOptions().position(location).title(bird.code).icon(icon))
+                        mMap.setOnMarkerClickListener { marker ->
+                            val fragment = ScooterSelect.newInstance()
+                            val fm = supportFragmentManager
+                            val ft = fm.beginTransaction()
+                            ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out);
+                            ft.replace(R.id.map, fragment)
+                            ft.addToBackStack(null);
+                            ft.commit()
+                            true
+                        }
+                    }
+                }
+            }
+
+            override fun onUpdateAccess() {}
+        })
+        runBlocking {
+            BirdHttpClient.getNearbyScooters(loc, rad)
+        }
+    }
 
 }

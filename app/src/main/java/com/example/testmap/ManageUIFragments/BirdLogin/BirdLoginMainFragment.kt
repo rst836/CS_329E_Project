@@ -1,4 +1,4 @@
-package com.example.testmap
+package com.example.testmap.ManageUIFragments.BirdLogin
 
 import com.example.testmap.Network.BirdHttpClient
 import com.example.testmap.Network.BirdListener
@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.*
+import com.example.testmap.R
 
 class BirdLoginMainFragment: Fragment(R.layout.fragment_bird_login_main) {
 

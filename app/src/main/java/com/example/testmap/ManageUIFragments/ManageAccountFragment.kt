@@ -1,16 +1,14 @@
-package com.example.testmap
+package com.example.testmap.ManageUIFragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.core.os.bundleOf
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
 import com.example.testmap.LoginInfo.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
+import com.example.testmap.Main
+import com.example.testmap.R
 
 class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
     private val loginViewModel:LoginInfoViewModel by viewModels {
