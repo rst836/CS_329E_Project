@@ -30,6 +30,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+    private var markers = mutableListOf<Marker?>()
 
     private val gson = GsonBuilder().create()
 
@@ -57,6 +58,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        val positionUT = LatLng(30.2862, -97.7394)
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(positionUT, 17f))
         mMap.setOnCameraIdleListener(this@MapsActivity)
 
     }
@@ -128,9 +131,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                     birdsList.add(gson.fromJson(obj.toString(), BirdScooter::class.java))
                 }
                 runOnUiThread {
+                    markers.clear()
                     for (bird:BirdScooter in birdsList) {
-                        var location = LatLng(bird.location.get("latitude") as Double, bird.location.get("longitude") as Double)
-                        mMap.addMarker(MarkerOptions().position(location).title(bird.code).icon(icon))
+                        val location = LatLng(bird.location.get("latitude") as Double, bird.location.get("longitude") as Double)
+                        val newMarker = mMap.addMarker(MarkerOptions().position(location).title(bird.code).icon(icon))
+                        markers.add(newMarker)
                         mMap.setOnMarkerClickListener { marker ->
                             val fragment = ScooterSelect.newInstance()
                             val fm = supportFragmentManager
