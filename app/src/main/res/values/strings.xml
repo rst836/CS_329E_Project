@@ -9,6 +9,13 @@
     <string name="history">No recent history!!</string>
     <string name="contactus">Please contact us for any questions or concerns at:\n\n
     scooterapp123@gmail.com</string>
+    <string name="howto"> How to Use\n\n
+        1. Click on options menu.\n\n
+    2. Click on manage accounts. \n\n
+    3. Login to the app using a verified Bird/Lime email. \n\n
+    4. Enter token received in said email. \n\n
+    5. The app should function now. \n\n
+    6. Click on any scooter nearby to ride.</string>
     <string name="appEmailHeader">Email</string>
     <string name="appPhoneHeader">Phone number</string>
     <string name="appCreateLoginBtn">Log in</string>

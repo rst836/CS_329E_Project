@@ -61,6 +61,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         val positionUT = LatLng(30.2862, -97.7394)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(positionUT, 17f))
         mMap.setOnCameraIdleListener(this@MapsActivity)
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.uiSettings.isCompassEnabled = true
+        mMap.uiSettings.isZoomGesturesEnabled = true
+
+
+
 
     }
 
@@ -74,6 +80,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {
+
+            R.id.subitem1 ->{
+                val fragment = HowTo.newInstance()
+                val fm = supportFragmentManager
+                val ft = fm.beginTransaction()
+                ft.replace(R.id.map, fragment)
+                ft.addToBackStack(null);
+                ft.commit()
+                true
+            }
             R.id.item4 -> {
                 val fragment = Feedback.newInstance()
                 val fm = supportFragmentManager

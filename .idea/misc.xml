@@ -25,6 +25,7 @@
         <entry key="app/src/main/res/layout/fragment_manageacc_user.xml" value="0.13768115942028986" />
         <entry key="app/src/main/res/layout/fragment_scooter_select.xml" value="0.24895833333333334" />
         <entry key="app/src/main/res/layout/history.xml" value="0.24895833333333334" />
+        <entry key="app/src/main/res/layout/how_to.xml" value="0.25" />
         <entry key="app/src/main/res/layout/manage_acc_fragment.xml" value="0.2" />
         <entry key="app/src/main/res/layout/manage_account_fragment.xml" value="0.2" />
         <entry key="app/src/main/res/layout/token.xml" value="0.1" />
