@@ -135,13 +135,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                     markers.clear()
                     for (bird:BirdScooter in birdsList) {
                         val location = LatLng(bird.location.get("latitude") as Double, bird.location.get("longitude") as Double)
-                        val newMarker = mMap.addMarker(MarkerOptions().position(location).title(bird.code).icon(icon))
+                        val newMarker = mMap.addMarker(MarkerOptions().position(location).title(bird.battery_level.toString()).icon(icon))
                         markers.add(newMarker)
                         mMap.setOnMarkerClickListener { marker ->
                             val fragment = ScooterSelect.newInstance()
                             val fm = supportFragmentManager
                             val ft = fm.beginTransaction()
-                            ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out);
+                            ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out);
                             ft.replace(R.id.map, fragment)
                             ft.addToBackStack(null);
                             ft.commit()
@@ -150,7 +150,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                     }
                 }
             }
-
             override fun onUpdateAccess() {}
         })
         runBlocking {

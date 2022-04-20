@@ -68,6 +68,7 @@ class BirdLoginMainFragment: Fragment(R.layout.fragment_bird_login_main) {
                             message.setText(R.string.birdLoginCompleteText)
                             continueBtn.setOnClickListener {
                                 activity?.supportFragmentManager!!.popBackStack()
+                                activity?.supportFragmentManager!!.popBackStack()
                                 BirdHttpClient.unsubscribe(this)
                             }
                         }
