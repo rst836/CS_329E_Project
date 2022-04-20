@@ -1,7 +1,7 @@
-package com.example.testmap.ManageUIFragments.BirdLogin
+package com.example.testmap.fragmentsManage.BirdLogin
 
-import com.example.testmap.Network.BirdHttpClient
-import com.example.testmap.Network.BirdListener
+import com.example.testmap.network.HttpClient
+import com.example.testmap.network.ClientListener
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.*
 import com.example.testmap.R
 
-class BirdLoginMainFragment: Fragment(R.layout.fragment_bird_login_main) {
+class fragmentBird: Fragment(R.layout.fragment_bird_login_main) {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +35,7 @@ class BirdLoginMainFragment: Fragment(R.layout.fragment_bird_login_main) {
             val emailText:String = view.findViewById<EditText>(R.id.enterBirdEmail).text.toString()
 
             // make the first request
-            BirdHttpClient.firstAuthPost(emailText)
+            HttpClient.loginBird1(emailText)
 
             // put the bird login2 fragment into the container
             activity?.supportFragmentManager!!.commit {
@@ -49,7 +49,7 @@ class BirdLoginMainFragment: Fragment(R.layout.fragment_bird_login_main) {
                 val tokenText:String = view.findViewById<EditText>(R.id.enterBirdToken).text.toString()
 
                 // make the second request
-                BirdHttpClient.secondAuthPost(tokenText)
+                HttpClient.loginBird2(tokenText)
 
                 // put the end fragment into the container
                 activity?.supportFragmentManager!!.commit {
@@ -58,24 +58,39 @@ class BirdLoginMainFragment: Fragment(R.layout.fragment_bird_login_main) {
 
                 // disable the btn until further notice
                 continueBtn.setOnClickListener{}
-                val birdListener = object : BirdListener {
-                    override fun onUpdateResults() {
-                    }
+                val birdListener = object : ClientListener {
+                    override fun onUpdateBirdResults() { }
 
-                    override fun onUpdateAccess() {
+                    override fun onUpdateLimeResults() { }
+
+                    override fun onUpdateBirdAccess() {
                         activity?.runOnUiThread {
                             val message = view.findViewById<TextView>(R.id.birdLoginMessage)
                             message.setText(R.string.birdLoginCompleteText)
                             continueBtn.setOnClickListener {
                                 activity?.supportFragmentManager!!.popBackStack()
-                                BirdHttpClient.unsubscribe(this)
+                                HttpClient.unsubscribe(this)
                             }
                         }
                     }
+
+                    override fun onUpdateLimeAccess() {}
+                    override fun onFailedBirdAccess() {
+                        activity?.runOnUiThread{
+                            val message = view.findViewById<TextView>(R.id.birdLoginMessage)
+                            message.setText(R.string.birdLoginErrorText)
+                            continueBtn.setOnClickListener {
+                                activity?.supportFragmentManager!!.popBackStack()
+                                HttpClient.unsubscribe(this)
+                            }
+                        }
+                    }
+
+                    override fun onFailedLimeAccess() { }
                 }
 
                 // listen for changes to the access token
-                BirdHttpClient.subscribe(birdListener)
+                HttpClient.subscribe(birdListener)
 
             }
         }

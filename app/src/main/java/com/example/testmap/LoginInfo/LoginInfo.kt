@@ -1,4 +1,4 @@
-package com.example.testmap.LoginInfo
+package com.example.testmap.loginInfo
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
