@@ -13,6 +13,20 @@ import com.example.testmap.ManageUIFragments.BirdLogin.BirdLoginMainFragment
 import com.example.testmap.R
 
 class ManageAccountItem(private val accountData:LoginInfo):Fragment(R.layout.fragment_manage_app_item) {
+
+    private var showContent = false;
+
+    private fun handleShowContent (view:View): View {
+        if (showContent) {
+            view.visibility = View.GONE
+            showContent = false;
+        } else {
+            view.visibility = View.VISIBLE
+            showContent = true
+        }
+        return view
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,11 +39,7 @@ class ManageAccountItem(private val accountData:LoginInfo):Fragment(R.layout.fra
 
         companyDropdown.setOnClickListener{
             val dropdownContent = view.findViewById<ConstraintLayout>(R.id.companyDropdownContent)
-            dropdownContent.visibility = View.VISIBLE
-
-            companyDropdown.setOnClickListener {
-                dropdownContent.visibility = View.GONE
-            }
+            handleShowContent(dropdownContent)
         }
 
         val accountEmail = view.findViewById<TextView>(R.id.appEmailLogin)
@@ -49,6 +59,7 @@ class ManageAccountItem(private val accountData:LoginInfo):Fragment(R.layout.fra
         val loginBtn = view.findViewById<Button>(R.id.loginBtn)
         loginBtn.setOnClickListener {
             val transaction = activity?.supportFragmentManager!!.beginTransaction()
+            transaction.addToBackStack(null)
             transaction.replace(R.id.manageAccountsFragment, BirdLoginMainFragment())
             transaction.commit()
         }
