@@ -44,7 +44,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
+        val fragment = ManageAccountFragment.newInstance()
+        val fm = supportFragmentManager
+        val ft = fm.beginTransaction()
+        ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
+        ft.replace(R.id.map, fragment)
+        ft.addToBackStack(null);
+        ft.commit()
     }
 
     /**
@@ -78,6 +84,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                 val fragment = Feedback.newInstance()
                 val fm = supportFragmentManager
                 val ft = fm.beginTransaction()
+                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 ft.replace(R.id.map, fragment)
                 ft.addToBackStack(null);
                 ft.commit()
@@ -87,6 +94,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                 val fragment = History.newInstance()
                 val fm = supportFragmentManager
                 val ft = fm.beginTransaction()
+                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 ft.replace(R.id.map, fragment)
                 ft.addToBackStack(null);
                 ft.commit()
@@ -96,6 +104,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                 val fragment = ContactUs.newInstance()
                 val fm = supportFragmentManager
                 val ft = fm.beginTransaction()
+                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 ft.replace(R.id.map, fragment)
                 ft.addToBackStack(null);
                 ft.commit()
@@ -105,6 +114,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                 val fragment = ManageAccountFragment.newInstance()
                 val fm = supportFragmentManager
                 val ft = fm.beginTransaction()
+                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 ft.replace(R.id.map, fragment)
                 ft.addToBackStack(null);
                 ft.commit()
@@ -141,7 +151,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                             val fragment = ScooterSelect.newInstance()
                             val fm = supportFragmentManager
                             val ft = fm.beginTransaction()
-                            ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out);
+                            ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
                             ft.replace(R.id.map, fragment)
                             ft.addToBackStack(null);
                             ft.commit()

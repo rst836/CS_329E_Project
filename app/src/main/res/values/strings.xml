@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">testMap</string>
+    <string name="ride">Ride</string>
     <string name="title_activity_maps">MapsActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Bird Scooter\n\n
@@ -23,7 +24,7 @@
     <string name="birdTokenInstructions">An access token will be sent by Bird to your email. This will look like a random string of characters and numbers. Copy and paste the token below:</string>
     <string name="enterTokenHint">Enter the token here</string>
     <string name="loadingFinalText">Loading</string>
-    <string name="manageHeaderText">Manage your accounts</string>
+    <string name="manageHeaderText">Welcome, sign in to account(s), then go back and move the map around to view scooters (use only Bird for now).</string>
     <string name="appListDescription">A list of the scooter apps the user has registered with.</string>
     <string name="loginNoEmail">Account email not stored</string>
     <string name="loginNoPhone">Account phone number not stored</string>
