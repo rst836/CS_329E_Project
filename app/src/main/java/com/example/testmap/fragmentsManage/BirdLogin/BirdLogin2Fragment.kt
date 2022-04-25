@@ -1,4 +1,4 @@
-package com.example.testmap.ManageUIFragments.BirdLogin
+package com.example.testmap.fragmentsManage.BirdLogin
 
 import androidx.fragment.app.Fragment
 import com.example.testmap.R

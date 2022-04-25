@@ -1,4 +1,4 @@
-package com.example.testmap.LoginInfo
+package com.example.testmap.loginInfo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

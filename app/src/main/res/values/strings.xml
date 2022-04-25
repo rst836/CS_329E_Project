@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">testMap</string>
+    <string name="ride">Ride</string>
     <string name="title_activity_maps">MapsActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Bird Scooter\n\n
+    <string name="hello_blank_fragment">Lime Scooter\n\n
     Click Button to Ride, Tap to go back</string>
     <string name="feedback">Sample Feedback View\n\n
     Tap to go back</string>
@@ -20,18 +21,31 @@
     <string name="appPhoneHeader">Phone number</string>
     <string name="appCreateLoginBtn">Log in</string>
     <string name="appUpdateLoginBtn">Update login</string>
+
     <string name="birdEnterEmail">Enter the email associated with your Bird account:</string>
     <string name="birdLoginHeader">Log into your Bird account</string>
     <string name="enterBirdEmail">Enter the email associated with your Bird account</string>
-    <string name="continueText">Continue</string>
     <string name="birdLoginLoadingText">Loading...</string>
     <string name="birdLoginCompleteText">Login complete! Press continue to return to the main menu.</string>
     <string name="birdLoginErrorText">Could not log into your Bird account. Please try again.</string>
     <string name="birdTokenInstructions">An access token will be sent by Bird to your email. This will look like a random string of characters and numbers. Copy and paste the token below:</string>
+
+
+    <string name="limeEnterEmail">Enter the phone number associated with your Lime account:</string>
+    <string name="limeLoginHeader">Log into your Lime account</string>
+    <string name="enterLimeEmail">Enter the phone number associated with your Lime account</string>
+    <string name="limeLoginLoadingText">Loading...</string>
+    <string name="limeLoginCompleteText">Login complete! Press continue to return to the main menu.</string>
+    <string name="limeLoginErrorText">Could not log into your Lime account. Please try again.</string>
+    <string name="limeTokenInstructions">An access token will be sent by Lime to your email. This will look like a random string of characters and numbers. Copy and paste the token below:</string>
+
+
     <string name="enterTokenHint">Enter the token here</string>
     <string name="loadingFinalText">Loading</string>
-    <string name="manageHeaderText">Manage your accounts</string>
+    <string name="manageHeaderText">Welcome, sign in to account(s), then go back and move the map around to view scooters.</string>
     <string name="appListDescription">A list of the scooter apps the user has registered with.</string>
     <string name="loginNoEmail">Account email not stored</string>
     <string name="loginNoPhone">Account phone number not stored</string>
+    <string name="continueText">Continue</string>
+    <string name="returnBtnText">Return to map</string>
 </resources>

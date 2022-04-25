@@ -1,4 +1,4 @@
-package com.example.testmap.ManageUIFragments
+package com.example.testmap.fragmentsManage
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,11 +8,12 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import com.example.testmap.LoginInfo.LoginInfo
-import com.example.testmap.ManageUIFragments.BirdLogin.BirdLoginMainFragment
+import com.example.testmap.loginInfo.LoginInfo
+import com.example.testmap.fragmentsManage.BirdLogin.fragmentBird
 import com.example.testmap.R
+import com.example.testmap.fragmentsManage.LimeLogin.fragmentLime
 
-class ManageAccountItem(private val accountData:LoginInfo):Fragment(R.layout.fragment_manage_app_item) {
+class ManageAccountItem(private val accountData:LoginInfo, private val loginType:String):Fragment(R.layout.fragment_manage_app_item) {
 
     private var showContent = false;
 
@@ -58,9 +59,14 @@ class ManageAccountItem(private val accountData:LoginInfo):Fragment(R.layout.fra
 
         val loginBtn = view.findViewById<Button>(R.id.loginBtn)
         loginBtn.setOnClickListener {
+
             val transaction = activity?.supportFragmentManager!!.beginTransaction()
             transaction.addToBackStack(null)
-            transaction.replace(R.id.manageAccountsFragment, BirdLoginMainFragment())
+            if (loginType == "bird") {
+                transaction.replace(R.id.manageAccountsFragment, fragmentBird())
+            } else if (loginType == "lime") {
+                transaction.replace(R.id.manageAccountsFragment, fragmentLime())
+            }
             transaction.commit()
         }
         return view
@@ -69,7 +75,8 @@ class ManageAccountItem(private val accountData:LoginInfo):Fragment(R.layout.fra
     companion object {
         @JvmStatic
         fun newInstance(loginInfo:LoginInfo) : ManageAccountItem {
-            return ManageAccountItem(loginInfo)
+            val typeOut = loginInfo.app.trim().lowercase()
+            return ManageAccountItem(loginInfo, typeOut)
         }
 
     }

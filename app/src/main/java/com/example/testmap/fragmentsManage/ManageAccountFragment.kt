@@ -1,12 +1,13 @@
-package com.example.testmap.ManageUIFragments
+package com.example.testmap.fragmentsManage
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
-import com.example.testmap.LoginInfo.*
+import com.example.testmap.loginInfo.*
 import com.example.testmap.Main
 import com.example.testmap.R
 
@@ -31,8 +32,10 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
             transaction.commit()
 
         })
-
-
+        val returnBtn = view.findViewById<Button>(R.id.returnBtn)
+        returnBtn.setOnClickListener {
+            activity?.supportFragmentManager!!.popBackStack()
+        }
         return view
     }
 

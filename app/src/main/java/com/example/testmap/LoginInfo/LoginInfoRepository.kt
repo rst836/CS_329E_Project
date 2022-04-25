@@ -1,4 +1,4 @@
-package com.example.testmap.LoginInfo
+package com.example.testmap.loginInfo
 
 import kotlinx.coroutines.flow.Flow
 

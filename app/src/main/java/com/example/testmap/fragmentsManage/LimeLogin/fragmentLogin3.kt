@@ -1,4 +1,4 @@
-package com.example.testmap.ManageUIFragments.BirdLogin
+package com.example.testmap.fragmentsManage.LimeLogin
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.testmap.R
 
-
-class BirdLogin1Fragment : Fragment(R.layout.fragment_bird_login1){
-
+class fragmentLogin3:Fragment(R.layout.fragment_lime_login2) {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

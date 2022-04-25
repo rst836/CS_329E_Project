@@ -5,26 +5,22 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import com.example.testmap.ManageUIFragments.ManageAccountFragment
-import com.example.testmap.Network.BirdHttpClient
-import com.example.testmap.Network.BirdListener
-import com.example.testmap.Network.BirdScooter
+import com.example.testmap.fragmentsManage.ManageAccountFragment
+import com.example.testmap.network.HttpClient
+import com.example.testmap.network.ClientListener
+import com.example.testmap.network.birdInterface.BirdScooter
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.example.testmap.databinding.ActivityMapsBinding
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.Marker
+import com.example.testmap.network.limeInterface.LimeScooter
+import com.google.android.gms.maps.model.*
 import com.google.maps.android.SphericalUtil
 import org.json.JSONArray
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonObject
 import kotlinx.coroutines.runBlocking
-import org.json.JSONObject
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
 
@@ -44,7 +40,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
+        val fragment = ManageAccountFragment.newInstance()
+        val fm = supportFragmentManager
+        val ft = fm.beginTransaction()
+        ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
+        ft.replace(R.id.map, fragment)
+        ft.addToBackStack(null);
+        ft.commit()
     }
 
     /**
@@ -94,6 +96,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                 val fragment = Feedback.newInstance()
                 val fm = supportFragmentManager
                 val ft = fm.beginTransaction()
+                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 ft.replace(R.id.map, fragment)
                 ft.addToBackStack(null);
                 ft.commit()
@@ -103,6 +106,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                 val fragment = History.newInstance()
                 val fm = supportFragmentManager
                 val ft = fm.beginTransaction()
+                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 ft.replace(R.id.map, fragment)
                 ft.addToBackStack(null);
                 ft.commit()
@@ -112,6 +116,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                 val fragment = ContactUs.newInstance()
                 val fm = supportFragmentManager
                 val ft = fm.beginTransaction()
+                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 ft.replace(R.id.map, fragment)
                 ft.addToBackStack(null);
                 ft.commit()
@@ -121,6 +126,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                 val fragment = ManageAccountFragment.newInstance()
                 val fm = supportFragmentManager
                 val ft = fm.beginTransaction()
+                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 ft.replace(R.id.map, fragment)
                 ft.addToBackStack(null);
                 ft.commit()
@@ -131,33 +137,39 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     }
 
     override fun onCameraIdle() {
-        val icon = BitmapDescriptorFactory.fromResource(R.drawable.scooter)
+        val birdIcon = BitmapDescriptorFactory.fromResource(R.drawable.bird_pin)
+        val limeIcon = BitmapDescriptorFactory.fromResource(R.drawable.lime_pin)
 
-        val loc:LatLng = mMap.cameraPosition.target
-        val rad = SphericalUtil.computeDistanceBetween(mMap.projection.visibleRegion.farLeft, loc)
+        val cameraPosition:CameraPosition = mMap.cameraPosition
+        val visibleRegion:VisibleRegion = mMap.projection.visibleRegion
 
-        BirdHttpClient.subscribe(object: BirdListener {
-            override fun onUpdateResults() {
-                val birds:JSONArray? = BirdHttpClient.results?.getJSONArray("birds")
+        markers.map { it?.remove() }
+        markers.clear()
+
+        HttpClient.subscribe(object: ClientListener {
+            override fun onUpdateBirdResults() {
+                val birds:JSONArray? = HttpClient.birdResults?.getJSONArray("birds")
+
+                if (birds?.length() == 0) {
+                    return
+                }
                 val birdsList = mutableListOf<BirdScooter>()
-                val jsonLength = birds?.length() as Int
-                println("number of scooters found: $jsonLength")
-                for (i in 0 until jsonLength) {
+                println("number of scooters found: ${birds!!.length()}")
+                for (i in 0 until birds!!.length() as Int) {
                     val obj = birds.getJSONObject(i)
                     birdsList.add(gson.fromJson(obj.toString(), BirdScooter::class.java))
                 }
                 runOnUiThread {
-                    markers.map { it?.remove() }
-                    markers.clear()
-                    for (bird:BirdScooter in birdsList) {
-                        val location = LatLng(bird.location.get("latitude") as Double, bird.location.get("longitude") as Double)
-                        val newMarker = mMap.addMarker(MarkerOptions().position(location).title(bird.code).icon(icon))
+                    for (bird: BirdScooter in birdsList) {
+                        val loc = bird.location
+                        val location = LatLng(loc["latitude"] as Double, loc["longitude"] as Double)
+                        val newMarker = mMap.addMarker(MarkerOptions().position(location).title(bird.code).icon(birdIcon))
                         markers.add(newMarker)
                         mMap.setOnMarkerClickListener { marker ->
                             val fragment = ScooterSelect.newInstance()
                             val fm = supportFragmentManager
                             val ft = fm.beginTransaction()
-                            ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out);
+                            ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
                             ft.replace(R.id.map, fragment)
                             ft.addToBackStack(null);
                             ft.commit()
@@ -167,10 +179,49 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                 }
             }
 
-            override fun onUpdateAccess() {}
+            override fun onUpdateLimeResults() {
+                val limes:JSONArray? = HttpClient.limeResults?.getJSONArray("bikes")
+                val limesList = mutableListOf<LimeScooter>()
+                println("number of scooters found: ${limes?.length()}")
+                if (limes?.length() == 0) {
+                    return
+                }
+                for (i in 0 until limes?.length() as Int) {
+                    val obj = limes.getJSONObject(i)
+                    limesList.add(gson.fromJson(obj.toString(), LimeScooter::class.java))
+                }
+                runOnUiThread {
+                    for (lime: LimeScooter in limesList) {
+                        val attributes = lime.attributes
+                        val location = LatLng(attributes["latitude"] as Double, attributes["longitude"] as Double)
+                        val newMarker = mMap.addMarker(MarkerOptions().position(location).title(attributes["bike_icon_id"].toString()).icon(limeIcon))
+                        markers.add(newMarker)
+                        mMap.setOnMarkerClickListener { marker ->
+                            val fragment = ScooterSelect.newInstance()
+                            val fm = supportFragmentManager
+                            val ft = fm.beginTransaction()
+                            ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
+                            ft.replace(R.id.map, fragment)
+                            ft.addToBackStack(null);
+                            ft.commit()
+                            true
+                        }
+                    }
+                }
+            }
+
+
+            override fun onUpdateBirdAccess() {}
+            override fun onUpdateLimeAccess() {}
+            override fun onFailedBirdAccess() {}
+
+            override fun onFailedLimeAccess() {
+                TODO("Not yet implemented")
+            }
+
         })
         runBlocking {
-            BirdHttpClient.getNearbyScooters(loc, rad)
+            HttpClient.getNearbyScooters(cameraPosition, visibleRegion)
         }
     }
 
