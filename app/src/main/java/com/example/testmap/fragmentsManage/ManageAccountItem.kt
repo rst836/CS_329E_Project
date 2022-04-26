@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.testmap.loginInfo.LoginInfo
 import com.example.testmap.fragmentsManage.BirdLogin.fragmentBird
 import com.example.testmap.R
-import com.example.testmap.fragmentsManage.LimeLogin.fragmentLime
+import com.example.testmap.fragmentsManage.LimeLogin.FragmentLime
 
 class ManageAccountItem(private val accountData:LoginInfo, private val loginType:String):Fragment(R.layout.fragment_manage_app_item) {
 
@@ -65,7 +65,7 @@ class ManageAccountItem(private val accountData:LoginInfo, private val loginType
             if (loginType == "bird") {
                 transaction.replace(R.id.manageAccountsFragment, fragmentBird())
             } else if (loginType == "lime") {
-                transaction.replace(R.id.manageAccountsFragment, fragmentLime())
+                transaction.replace(R.id.manageAccountsFragment, FragmentLime())
             }
             transaction.commit()
         }

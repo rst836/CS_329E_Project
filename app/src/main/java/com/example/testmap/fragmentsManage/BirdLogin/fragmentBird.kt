@@ -1,7 +1,7 @@
 package com.example.testmap.fragmentsManage.BirdLogin
 
-import com.example.testmap.network.HttpClient
-import com.example.testmap.network.ClientListener
+import com.example.testmap.api.HttpClient
+import com.example.testmap.api.ClientListener
 
 import android.os.Bundle
 import android.view.LayoutInflater

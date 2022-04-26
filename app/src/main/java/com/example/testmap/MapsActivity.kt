@@ -6,21 +6,21 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import com.example.testmap.fragmentsManage.ManageAccountFragment
-import com.example.testmap.network.HttpClient
-import com.example.testmap.network.ClientListener
-import com.example.testmap.network.birdInterface.BirdScooter
+import com.example.testmap.api.HttpClient
+import com.example.testmap.api.ClientListener
+import com.example.testmap.api.birdInterface.BirdScooter
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.example.testmap.databinding.ActivityMapsBinding
-import com.example.testmap.network.limeInterface.LimeScooter
+import com.example.testmap.api.limeInterface.LimeScooter
 import com.google.android.gms.maps.model.*
-import com.google.maps.android.SphericalUtil
 import org.json.JSONArray
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.runBlocking
+import org.json.JSONObject
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
 
@@ -164,7 +164,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
             }
 
             override fun onUpdateLimeResults() {
-                val limes:JSONArray? = HttpClient.limeResults?.getJSONArray("bikes")
+                val attributes:JSONObject? = HttpClient.limeResults?.getJSONObject("attributes")
+                val limes:JSONArray? = attributes?.getJSONArray("bikes")
                 val limesList = mutableListOf<LimeScooter>()
                 println("number of scooters found: ${limes?.length()}")
                 if (limes?.length() == 0) {

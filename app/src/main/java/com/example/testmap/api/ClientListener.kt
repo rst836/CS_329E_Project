@@ -1,4 +1,4 @@
-package com.example.testmap.network
+package com.example.testmap.api
 
 interface ClientListener {
     fun onUpdateBirdResults()
