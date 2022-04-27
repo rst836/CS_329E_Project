@@ -1,7 +1,7 @@
-package com.example.testmap.network
+package com.example.testmap.api
 
-import com.example.testmap.network.birdInterface.AuthTokens
-import com.example.testmap.network.limeInterface.AuthToken
+import com.example.testmap.api.birdInterface.AuthTokens
+import com.example.testmap.api.limeInterface.AuthToken
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.VisibleRegion
@@ -21,7 +21,6 @@ object HttpClient {
 
     private val gson = Gson()
     private val clientBird = OkHttpClient()
-
 
     private val clientLime:OkHttpClient
 
@@ -47,16 +46,16 @@ object HttpClient {
     // bird endpoints
     private const val BIRD_AUTH_ENDPOINT:String = "https://api-auth.prod.birdapp.com/api/v1/auth"
     private const val BIRD_API_ENDPOINT:String = "https://api-bird.prod.birdapp.com/bird/nearby"
-    private val JSON_MEDIA_TYPE:MediaType = "application/json".toMediaType()
-
 
     // lime endpoints
     private const val LIME_BASE_URL:String = "https://web-production.lime.bike/api/rider"
     private const val LIME_AUTH_ENDPOINT:String = "${LIME_BASE_URL}/v1/login"
     private const val LIME_API_ENDPOINT:String = "${LIME_BASE_URL}/v1/views/map"
 
-    private val FORM_MEDIA_TYPE:MediaType = "application/x-www-form-urlencoded".toMediaType()
+    // media types
+    private val JSON_MEDIA_TYPE:MediaType = "application/json".toMediaType()
 
+    // observers list
     private var observers = mutableListOf<ClientListener>()
 
     private val access =  object {
@@ -68,21 +67,31 @@ object HttpClient {
             var access:String by Delegates.observable("") {
                     prop, old, new ->
                 println("Updated Bird access token $old -> $new")
-                observers.map { it.onUpdateBirdAccess()
-                }
-
+                observers.map { it.onUpdateBirdAccess() }
             }
         }
 
         val Lime = object {
             var phone:String? = null
+            var email:String? = null
+            var methodLastUsed:String? = null
+
             var token:String by Delegates.observable("") {
-                prop, old, new ->
-            println("Updated Bird access token $old -> $new")
-            observers.map { it.onUpdateLimeAccess()
+                    prop, old, new ->
+                println("Updated Bird access token $old -> $new")
+                observers.map { it.onUpdateLimeAccess() }
             }
 
-        }
+            fun setIdInfo(idInfo: String, method:String) {
+                if (method == "phone" || method == "email") {
+                    this.methodLastUsed = method
+                    if (method == "phone") {
+                        this.phone = idInfo
+                    } else if (method == "email") {
+                        this.email = idInfo
+                    }
+                }
+            }
         }
     }
 
@@ -168,10 +177,10 @@ object HttpClient {
         return true
     }
 
-    fun loginLime1 (phone:String) : Boolean {
+    fun loginLime1 (idInfo:String, callType:String="email") : Boolean {
         println("loginPost called successfully")
 
-        access.Lime.phone = phone
+        access.Lime.setIdInfo(idInfo, callType)
         val req = getLimeLogin1Req()
 
         print("loginPost req: $req")
@@ -198,7 +207,7 @@ object HttpClient {
         clientLime.newCall(req).enqueue(object: Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
-                observers.map {it.onFailedBirdAccess()}
+                observers.map {it.onFailedLimeAccess()}
 
             }
 
@@ -209,7 +218,7 @@ object HttpClient {
                         unpackLimeTokens(response)
                     } catch (e: Throwable) {
                         e.printStackTrace()
-                        observers.map {it.onFailedBirdAccess()}
+                        observers.map {it.onFailedLimeAccess()}
                     }
                 }
             }
@@ -224,7 +233,7 @@ object HttpClient {
             val target = cameraPosition.target
             val radius = SphericalUtil.computeDistanceBetween(target, visibleRegion.farLeft)
 
-            val req = getNearbyBirdRequest(target, radius)
+            val req = getNearbyBirdReq(target, radius)
 
             clientBird.newCall(req).enqueue(object:Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -242,7 +251,7 @@ object HttpClient {
         }
         // if valid access to lime scooters
         if (access.Lime.token != "") {
-            val req = getNearbyLime(cameraPosition, visibleRegion)
+            val req = getNearbyLimeReq(cameraPosition, visibleRegion)
             clientBird.newCall(req).enqueue(object:Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     e.printStackTrace()
@@ -259,28 +268,25 @@ object HttpClient {
         }
     }
 
-    private fun getNearbyLime(cameraPosition: CameraPosition, visibleRegion: VisibleRegion) : Request {
-        var locationNE:LatLng
-        var locationSW:LatLng
+    private fun getNearbyLimeReq(cameraPosition: CameraPosition, visibleRegion: VisibleRegion) : Request {
+        val locationNE:LatLng
+        val locationSW:LatLng
 
         val bearing = cameraPosition.bearing
         val target = cameraPosition.target
 
 
-        if ((0F <= bearing) and (bearing < 90F)) {
+        if (bearing < 90F) {
             locationNE = visibleRegion.farRight
             locationSW = visibleRegion.nearLeft
 
-        }
-        else if ((90F <= bearing) and (bearing < 180F)) {
+        } else if (bearing < 180F) {
             locationNE = visibleRegion.farLeft
             locationSW = visibleRegion.nearRight
-        }
-        else if ((180F <= bearing) and (bearing < 270F)) {
+        } else if (bearing < 270F) {
             locationNE = visibleRegion.nearLeft
             locationSW = visibleRegion.farRight
-        }
-        else {
+        } else {
             locationNE = visibleRegion.nearRight
             locationSW = visibleRegion.farLeft
         }
@@ -301,7 +307,7 @@ object HttpClient {
 
         return Request.Builder()
             .url("${LIME_API_ENDPOINT}?$queryParams")
-            .header("Authorization", "Bearer ${token}")
+            .header("Authorization", "Bearer $token")
             .build()
     }
 
@@ -338,8 +344,11 @@ object HttpClient {
     private fun getLimeLogin1Req(): Request {
         var urlOut = LIME_AUTH_ENDPOINT
 
-        if (access.Lime.phone != null)
-            urlOut = "$urlOut?phone=%2B${access.Lime.phone}"
+        if (access.Lime.methodLastUsed == "email" && access.Lime.email != null) {
+            urlOut = "$urlOut?email=${access.Lime.email}"
+        } else if (access.Lime.methodLastUsed == "phone" && access.Lime.phone != null) {
+            urlOut = "$urlOut?phone=${access.Lime.phone}"
+        }
 
         return Request.Builder()
             .url(urlOut)
@@ -350,15 +359,13 @@ object HttpClient {
     private fun getLimeLogin2Req(token:String): Request {
         var urlOut = LIME_AUTH_ENDPOINT
 
-
-        if (access.Lime.phone == null) {
-            return Request.Builder()
-                .url(urlOut)
-                .build()
-
+        val idInfo:String? = when (access.Lime.methodLastUsed) {
+            "phone" -> access.Lime.phone
+            "email" -> access.Lime.email
+            else -> ""
         }
 
-        val postBody = "{\"phone\":\"${access.Lime.phone}\", \"login_code\":\"$token\"}".toRequestBody(JSON_MEDIA_TYPE)
+        val postBody = "{\"${access.Lime.methodLastUsed}\":\"$idInfo\", \"login_code\":\"$token\"}".toRequestBody(JSON_MEDIA_TYPE)
 
         return Request.Builder()
             .url(urlOut)
@@ -391,7 +398,7 @@ object HttpClient {
         return true
     }
 
-    private fun getNearbyBirdRequest(location:LatLng, radius:Number) : Request {
+    private fun getNearbyBirdReq(location:LatLng, radius:Number) : Request {
         val lat = location.latitude
         val lng = location.longitude
 

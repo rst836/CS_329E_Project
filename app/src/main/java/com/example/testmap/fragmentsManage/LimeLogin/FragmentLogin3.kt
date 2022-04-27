@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.testmap.R
 
-class fragmentLogin3:Fragment(R.layout.fragment_lime_login2) {
+class FragmentLogin3:Fragment(R.layout.fragment_lime_login3) {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
