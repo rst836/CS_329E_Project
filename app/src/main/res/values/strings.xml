@@ -3,7 +3,9 @@
     <string name="ride">Ride</string>
     <string name="title_activity_maps">Austin Scooter Finder</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Lime Scooter\n\n
+    <string name="hello_blank_fragment_lime">Lime Scooter\n\n
+    Click Button to Ride, Tap to go back</string>
+    <string name="hello_blank_fragment_bird">Bird Scooter\n\n
     Click Button to Ride, Tap to go back</string>
     <string name="feedback">Sample Feedback View\n\n
     Tap to go back</string>

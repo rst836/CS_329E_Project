@@ -19,7 +19,6 @@
             android:layout_height="200dp"
             android:background="@drawable/share_rounded_corner_with_border"
             android:backgroundTint="#FFFFFF"
-            android:text="@string/hello_blank_fragment"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp"

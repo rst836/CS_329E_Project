@@ -128,8 +128,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     }
 
     override fun onMyLocationButtonClick(): Boolean {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT)
-            .show()
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
         return false
@@ -282,7 +280,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                         val newMarker = mMap.addMarker(MarkerOptions().position(location).title(bird.code).icon(birdIcon))
                         markers.add(newMarker)
                         mMap.setOnMarkerClickListener { marker ->
-                            val fragment = ScooterSelect.newInstance()
+                            val fragment = ScooterSelect.newInstance(false)
                             val fm = supportFragmentManager
                             val ft = fm.beginTransaction()
                             ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
@@ -314,7 +312,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                         val newMarker = mMap.addMarker(MarkerOptions().position(location).title(attributes["bike_icon_id"].toString()).icon(limeIcon))
                         markers.add(newMarker)
                         mMap.setOnMarkerClickListener { marker ->
-                            val fragment = ScooterSelect.newInstance()
+                            val fragment = ScooterSelect.newInstance(true)
                             val fm = supportFragmentManager
                             val ft = fm.beginTransaction()
                             ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
