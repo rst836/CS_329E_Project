@@ -432,7 +432,7 @@ object HttpClient {
             .addHeader("App-Version", "4.119.0")
             .addHeader("Content-Type", "application/json")
             .addHeader("legacyrequest", "false")
-            .addHeader("Authorization", "Bearer $access")
+            .addHeader("Authorization", "Bearer ${access.Bird.access}")
             .addHeader("Location", gson.toJson(loc) )
             .build()
     }
