@@ -283,9 +283,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                             val loc = bird.location
                             val location = LatLng(loc["latitude"] as Double, loc["longitude"] as Double)
                             val newMarker = mMap.addMarker(MarkerOptions().position(location).title(bird.code).icon(birdIcon))
+                            newMarker.tag = mapOf<String, Any>(
+                                "Title" to bird.code,
+                                "isLime" to false
+                            )
                             birdMarkers.add(newMarker)
                             mMap.setOnMarkerClickListener { marker ->
-                                val fragment = ScooterSelect.newInstance(false)
+                                val tagValue = marker.tag
+                                val fragment = ScooterSelect.newInstance(tagValue.get("isLime") as Boolean)
                                 val fm = supportFragmentManager
                                 val ft = fm.beginTransaction()
                                 ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
@@ -317,9 +322,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                             val attributes = lime.attributes
                             val location = LatLng(attributes["latitude"] as Double, attributes["longitude"] as Double)
                             val newMarker = mMap.addMarker(MarkerOptions().position(location).title(attributes["bike_icon_id"].toString()).icon(limeIcon))
+                            newMarker.tag = mapOf<String, Any>(
+                                "Title" to attributes["bike_icon_id"].toString(),
+                                "isLime" to true
+                            )
                             limeMarkers.add(newMarker)
                             mMap.setOnMarkerClickListener { marker ->
-                                val fragment = ScooterSelect.newInstance(true)
+                                val tagValue:Map<String, Any> = marker.tag as Map<String, Any>
+                                val fragment = ScooterSelect.newInstance(tagValue.get("isLime") as Boolean)
                                 val fm = supportFragmentManager
                                 val ft = fm.beginTransaction()
                                 ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
