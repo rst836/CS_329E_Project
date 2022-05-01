@@ -95,6 +95,7 @@ class FragmentLime: Fragment(R.layout.fragment_lime_login_main) {
                         }
 
                         override fun onUpdateBirdAccess() {}
+
                         override fun onFailedLimeAccess() {
                             activity?.runOnUiThread {
                                 val message = view.findViewById<TextView>(R.id.limeLoginMessage)

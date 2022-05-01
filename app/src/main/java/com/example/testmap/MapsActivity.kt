@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import com.example.testmap.api.limeInterface.LimeScooter
 import com.google.android.gms.maps.model.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.runBlocking
@@ -49,21 +50,70 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        // -- LOCATION DETECTION --
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+//        println("got the fusedlocationclient: $fusedLocationClient")
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-        val fragment = ManageAccountFragment.newInstance()
-        val fm = supportFragmentManager
-        val ft = fm.beginTransaction()
-        ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
-        ft.replace(R.id.map, fragment)
-        ft.addToBackStack(null);
-        ft.commit()
+
+        val navView: BottomNavigationView = binding.navView
+
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.manageAccountsFragment, R.id.map
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(this)
+
+//        // -- LOCATION DETECTION --
+//        findViewById<BottomNavigationItemView>(R.id.map).setOnClickListener {
+//            // TODO: Fix so that enableMyLocation() is called when R.id.map is selected, changing the view to the map
+////            // make a request to the user to access their coarse location
+////            println("onclick to map id")
+////            enableMyLocation()
+////            mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+////            if (mapFragment != null) {
+////                val ft = supportFragmentManager.beginTransaction()
+////                ft.replace(R.id.nav_host_fragment_activity_main, mapFragment as SupportMapFragment)
+////                ft.commit()
+////            }
+//        }
+
     }
+
+
+    override fun onPrepareOptionsMenu (menu: Menu?): Boolean {
+        val inflater : MenuInflater? = menuInflater
+        inflater?.inflate(R.menu.settings_menu,menu)
+
+        return true
+    }
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//
+//        binding = ActivityMapsBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+//        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+//        val mapFragment = supportFragmentManager
+//            .findFragmentById(R.id.map) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
+//        val fragment = ManageAccountFragment.newInstance()
+//        val fm = supportFragmentManager
+//        val ft = fm.beginTransaction()
+//        ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
+//        ft.replace(R.id.map, fragment)
+//        ft.addToBackStack(null);
+//        ft.commit()
+//    }
 
     /**
      * Manipulates the map once available.
@@ -330,9 +380,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
             override fun onUpdateLimeAccess() {}
             override fun onFailedBirdAccess() {}
 
-            override fun onFailedLimeAccess() {
-                TODO("Not yet implemented")
-            }
+            override fun onFailedLimeAccess() {}
 
         })
         runBlocking {
