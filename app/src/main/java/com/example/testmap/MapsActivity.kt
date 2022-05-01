@@ -32,6 +32,8 @@ import com.example.testmap.api.limeInterface.LimeScooter
 import com.google.android.gms.maps.model.*
 import org.json.JSONArray
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 
@@ -43,7 +45,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private var permissionDenied = false
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private var markers = mutableListOf<Marker?>()
+
+    private var limeMarkers = mutableListOf<Marker?>()
+    private var birdMarkers = mutableListOf<Marker?>()
 
     private val gson = GsonBuilder().create()
 
@@ -248,96 +252,100 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         }
     }
 
-    override fun onCameraIdle() {
-        val birdIcon = BitmapDescriptorFactory.fromResource(R.drawable.bird_pin)
-        val limeIcon = BitmapDescriptorFactory.fromResource(R.drawable.lime_pin)
+    suspend fun updateScootersInView() = coroutineScope {
 
-        val cameraPosition:CameraPosition = mMap.cameraPosition
-        val visibleRegion:VisibleRegion = mMap.projection.visibleRegion
+        launch {
+            val birdIcon = BitmapDescriptorFactory.fromResource(R.drawable.bird_pin)
+            val limeIcon = BitmapDescriptorFactory.fromResource(R.drawable.lime_pin)
 
-        markers.map { it?.remove() }
-        markers.clear()
+            val cameraPosition:CameraPosition = mMap.cameraPosition
+            val visibleRegion:VisibleRegion = mMap.projection.visibleRegion
 
-        HttpClient.subscribe(object: ClientListener {
-            override fun onUpdateBirdResults() {
-                // save the login information to the database
+            HttpClient.subscribe(object: ClientListener {
+                override fun onUpdateBirdResults() {
+                    // save the login information to the database
 
-                val birds:JSONArray? = HttpClient.birdResults?.getJSONArray("birds")
+                    val birds:JSONArray? = HttpClient.birdResults?.getJSONArray("birds")
 
-                if (birds?.length() == 0) {
-                    return
-                }
-                val birdsList = mutableListOf<BirdScooter>()
-                println("number of scooters found: ${birds!!.length()}")
-                for (i in 0 until birds!!.length() as Int) {
-                    val obj = birds.getJSONObject(i)
-                    birdsList.add(gson.fromJson(obj.toString(), BirdScooter::class.java))
-                }
-                runOnUiThread {
-                    for (bird: BirdScooter in birdsList) {
-                        val loc = bird.location
-                        val location = LatLng(loc["latitude"] as Double, loc["longitude"] as Double)
-                        val newMarker = mMap.addMarker(MarkerOptions().position(location).title(bird.code).icon(birdIcon))
-                        markers.add(newMarker)
-                        mMap.setOnMarkerClickListener { marker ->
-                            val fragment = ScooterSelect.newInstance(false)
-                            val fm = supportFragmentManager
-                            val ft = fm.beginTransaction()
-                            ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
-                            ft.replace(R.id.map, fragment)
-                            ft.addToBackStack(null);
-                            ft.commit()
-                            true
+                    if (birds?.length() == 0) {
+                        return
+                    }
+                    val birdsList = mutableListOf<BirdScooter>()
+                    println("number of scooters found: ${birds!!.length()}")
+                    for (i in 0 until birds!!.length() as Int) {
+                        val obj = birds.getJSONObject(i)
+                        birdsList.add(gson.fromJson(obj.toString(), BirdScooter::class.java))
+                    }
+                    runOnUiThread {
+                        birdMarkers.map { it?.remove() }
+                        birdMarkers.clear()
+                        for (bird: BirdScooter in birdsList) {
+                            val loc = bird.location
+                            val location = LatLng(loc["latitude"] as Double, loc["longitude"] as Double)
+                            val newMarker = mMap.addMarker(MarkerOptions().position(location).title(bird.code).icon(birdIcon))
+                            birdMarkers.add(newMarker)
+                            mMap.setOnMarkerClickListener { marker ->
+                                val fragment = ScooterSelect.newInstance(false)
+                                val fm = supportFragmentManager
+                                val ft = fm.beginTransaction()
+                                ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
+                                ft.replace(R.id.map, fragment)
+                                ft.addToBackStack(null);
+                                ft.commit()
+                                true
+                            }
                         }
                     }
                 }
-            }
 
-            override fun onUpdateLimeResults() {
-                val attributes:JSONObject? = HttpClient.limeResults?.getJSONObject("attributes")
-                val limes:JSONArray? = attributes?.getJSONArray("bikes")
-                val limesList = mutableListOf<LimeScooter>()
-                println("number of scooters found: ${limes?.length()}")
-                if (limes?.length() == 0) {
-                    return
-                }
-                for (i in 0 until limes?.length() as Int) {
-                    val obj = limes.getJSONObject(i)
-                    limesList.add(gson.fromJson(obj.toString(), LimeScooter::class.java))
-                }
-                runOnUiThread {
-                    for (lime: LimeScooter in limesList) {
-                        val attributes = lime.attributes
-                        val location = LatLng(attributes["latitude"] as Double, attributes["longitude"] as Double)
-                        val newMarker = mMap.addMarker(MarkerOptions().position(location).title(attributes["bike_icon_id"].toString()).icon(limeIcon))
-                        markers.add(newMarker)
-                        mMap.setOnMarkerClickListener { marker ->
-                            val fragment = ScooterSelect.newInstance(true)
-                            val fm = supportFragmentManager
-                            val ft = fm.beginTransaction()
-                            ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
-                            ft.replace(R.id.map, fragment)
-                            ft.addToBackStack(null);
-                            ft.commit()
-                            true
+                override fun onUpdateLimeResults() {
+                    val attributes:JSONObject? = HttpClient.limeResults?.getJSONObject("attributes")
+                    val limes:JSONArray? = attributes?.getJSONArray("bikes")
+                    val limesList = mutableListOf<LimeScooter>()
+                    println("number of scooters found: ${limes?.length()}")
+                    if (limes?.length() == 0) {
+                        return
+                    }
+                    for (i in 0 until limes?.length() as Int) {
+                        val obj = limes.getJSONObject(i)
+                        limesList.add(gson.fromJson(obj.toString(), LimeScooter::class.java))
+                    }
+                    runOnUiThread {
+                        limeMarkers.map { it?.remove() }
+                        limeMarkers.clear()
+                        for (lime: LimeScooter in limesList) {
+                            val attributes = lime.attributes
+                            val location = LatLng(attributes["latitude"] as Double, attributes["longitude"] as Double)
+                            val newMarker = mMap.addMarker(MarkerOptions().position(location).title(attributes["bike_icon_id"].toString()).icon(limeIcon))
+                            limeMarkers.add(newMarker)
+                            mMap.setOnMarkerClickListener { marker ->
+                                val fragment = ScooterSelect.newInstance(true)
+                                val fm = supportFragmentManager
+                                val ft = fm.beginTransaction()
+                                ft.setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
+                                ft.replace(R.id.map, fragment)
+                                ft.addToBackStack(null);
+                                ft.commit()
+                                true
+                            }
                         }
                     }
                 }
-            }
 
 
-            override fun onUpdateBirdAccess() {}
-            override fun onUpdateLimeAccess() {}
-            override fun onFailedBirdAccess() {}
+                override fun onUpdateBirdAccess() {}
+                override fun onUpdateLimeAccess() {}
+                override fun onFailedBirdAccess() {}
+                override fun onFailedLimeAccess() {}
 
-            override fun onFailedLimeAccess() {
-                TODO("Not yet implemented")
-            }
+            })
 
-        })
-        runBlocking {
             HttpClient.getNearbyScooters(cameraPosition, visibleRegion)
         }
+    }
+
+    override fun onCameraIdle() {
+        runBlocking { updateScootersInView() }
     }
 
 }
