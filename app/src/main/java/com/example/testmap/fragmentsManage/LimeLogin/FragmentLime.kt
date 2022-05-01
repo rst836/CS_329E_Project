@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.*
 import com.example.testmap.R
 
@@ -50,6 +51,33 @@ class FragmentLime: Fragment(R.layout.fragment_lime_login_main) {
             }
 
             if (idInfo != "") {
+
+                HttpClient.subscribe(object:ClientListener {
+                    override fun onUpdateBirdResults() {
+
+                    }
+
+                    override fun onUpdateLimeResults() {
+                    }
+
+                    override fun onUpdateBirdAccess() {
+                    }
+
+                    override fun onUpdateLimeAccess() {
+                    }
+
+                    override fun onFailedBirdAccess() {
+                    }
+
+                    override fun onFailedLimeAccess() {
+                        activity?.runOnUiThread {
+                            activity?.supportFragmentManager!!.popBackStack()
+                            Toast.makeText(context, R.string.lime_failed_login, Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                })
+
                 // make the first request
                 HttpClient.loginLime1(idInfo, loginMethod)
 

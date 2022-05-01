@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.*
 import com.example.testmap.R
 
@@ -34,6 +35,31 @@ class FragmentBird: Fragment(R.layout.fragment_bird_login_main) {
             // read in the email
             val emailText:String = view.findViewById<EditText>(R.id.enterBirdEmail).text.toString()
 
+
+            HttpClient.subscribe(object:ClientListener {
+                override fun onUpdateBirdResults() {
+                }
+
+                override fun onUpdateLimeResults() {
+                }
+
+                override fun onUpdateBirdAccess() {
+                }
+
+                override fun onUpdateLimeAccess() {
+                }
+
+                override fun onFailedBirdAccess() {
+                    activity?.runOnUiThread {
+                        activity?.supportFragmentManager!!.popBackStack()
+                        Toast.makeText(context, R.string.bird_failed_login, Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailedLimeAccess() {
+                }
+
+            })
             // make the first request
             HttpClient.loginBird1(emailText)
 

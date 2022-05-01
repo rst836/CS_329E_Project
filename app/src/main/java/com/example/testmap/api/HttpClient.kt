@@ -142,6 +142,9 @@ object HttpClient {
             override fun onResponse(call: Call, response:Response) {
                 response.use {
                     println("loginBird1 responded $response")
+                    if (!response.isSuccessful) {
+                        observers.map{it.onFailedBirdAccess()}
+                    }
                 }
             }
         })
@@ -164,7 +167,6 @@ object HttpClient {
                 response.use {
                     println("loginBird2 responded")
                     try {
-
                         unpackBirdTokens(response)
                     } catch (e:Throwable) {
                         e.printStackTrace()
@@ -193,6 +195,9 @@ object HttpClient {
                 response.use {
                     println("lime response")
                     println("$response")
+                    if (!response.isSuccessful) {
+                        observers.map{it.onFailedLimeAccess()}
+                    }
                 }
             }
         })
