@@ -262,6 +262,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
 
         HttpClient.subscribe(object: ClientListener {
             override fun onUpdateBirdResults() {
+                // save the login information to the database
+
                 val birds:JSONArray? = HttpClient.birdResults?.getJSONArray("birds")
 
                 if (birds?.length() == 0) {

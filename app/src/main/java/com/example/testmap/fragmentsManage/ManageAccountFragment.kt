@@ -6,15 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.*
-import androidx.lifecycle.Observer
-import com.example.testmap.loginInfo.*
-import com.example.testmap.Main
 import com.example.testmap.R
+import com.example.testmap.fragmentsManage.BirdLogin.FragmentBird
+import com.example.testmap.fragmentsManage.LimeLogin.FragmentLime
 
 class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
-    private val loginViewModel:LoginInfoViewModel by viewModels {
-        LoginInfoViewModelFactory((activity?.application as Main).repository)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,16 +18,21 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_manage_layout, container, false)
-        loginViewModel.allLogins.observe(viewLifecycleOwner, Observer<List<LoginInfo>>{ loginList ->
-            // update
-            val transaction = activity?.supportFragmentManager!!.beginTransaction()
-            loginList.forEach { loginInfo ->
-                val fragment = ManageAccountItem.newInstance(loginInfo)
-                transaction.add(R.id.appLinearLayout, fragment)
-            }
-            transaction.commit()
 
-        })
+        view.findViewById<Button>(R.id.loginWithBirdBtn).setOnClickListener {
+            val transaction = activity?.supportFragmentManager!!.beginTransaction()
+            transaction.addToBackStack(null)
+            transaction.replace(R.id.manageAccountsFragment, FragmentBird())
+            transaction.commit()
+        }
+
+        view.findViewById<Button>(R.id.loginWithLimeBtn).setOnClickListener {
+            val transaction = activity?.supportFragmentManager!!.beginTransaction()
+            transaction.addToBackStack(null)
+            transaction.replace(R.id.manageAccountsFragment, FragmentLime())
+            transaction.commit()
+        }
+
         val returnBtn = view.findViewById<Button>(R.id.returnBtn)
         returnBtn.setOnClickListener {
             activity?.supportFragmentManager!!.popBackStack()

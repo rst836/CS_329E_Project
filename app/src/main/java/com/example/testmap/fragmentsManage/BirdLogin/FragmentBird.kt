@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.*
 import com.example.testmap.R
 
-class fragmentBird: Fragment(R.layout.fragment_bird_login_main) {
+class FragmentBird: Fragment(R.layout.fragment_bird_login_main) {
 
     override fun onCreateView(
         inflater: LayoutInflater,

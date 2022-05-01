@@ -40,7 +40,7 @@
     <string name="loginNoEmail">Account email not stored</string>
     <string name="loginNoPhone">Account phone number not stored</string>
     <string name="continueText">Continue</string>
-    <string name="returnBtnText">Return to map</string>
+    <string name="returnBtnText">Return</string>
     <string name="login_with_phone_number">Login with phone number</string>
     <string name="login_with_email">Login with email</string>
     <!--    Permissions    -->

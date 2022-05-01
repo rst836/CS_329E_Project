@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.testmap.loginInfo.LoginInfo
-import com.example.testmap.fragmentsManage.BirdLogin.fragmentBird
+import com.example.testmap.fragmentsManage.BirdLogin.FragmentBird
 import com.example.testmap.R
 import com.example.testmap.fragmentsManage.LimeLogin.FragmentLime
 
@@ -63,7 +63,7 @@ class ManageAccountItem(private val accountData:LoginInfo, private val loginType
             val transaction = activity?.supportFragmentManager!!.beginTransaction()
             transaction.addToBackStack(null)
             if (loginType == "bird") {
-                transaction.replace(R.id.manageAccountsFragment, fragmentBird())
+                transaction.replace(R.id.manageAccountsFragment, FragmentBird())
             } else if (loginType == "lime") {
                 transaction.replace(R.id.manageAccountsFragment, FragmentLime())
             }
