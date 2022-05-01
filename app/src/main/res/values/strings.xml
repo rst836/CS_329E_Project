@@ -53,4 +53,6 @@
     <!-- errors during login -->
     <string name="lime_failed_login">Could not access the Lime authentication server. Please try again later.</string>
     <string name="bird_failed_login">Could not access the Bird authentication server. Please try again later.</string>
+    <string name="login_with_bird">Login with Bird</string>
+    <string name="login_with_lime">Login with Lime</string>
 </resources>

@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/manageAccountsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/manageAccountsFragment"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    app:flow_verticalBias="10">
 
     <TextView
         android:id="@+id/manageHeader"
@@ -13,41 +14,36 @@
         android:layout_height="wrap_content"
         android:text="@string/manageHeaderText"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/appScrollView"
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/appListDescription"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manageHeader">
-
-        <LinearLayout
-            android:id="@+id/appLinearLayout"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/manageHeader"
+        app:layout_constraintBottom_toTopOf="@+id/returnBtn" >
+        <Button
+            android:id="@+id/loginWithBirdBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <Button
-                android:id="@+id/loginWithBirdBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Login with Bird"/>
-            <Button
-                android:id="@+id/loginWithLimeBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Login with Lime"/>
+            android:drawableLeft="@drawable/bird_48x48"
+            android:text="@string/login_with_bird"
+            />
 
-        </LinearLayout>
-    </ScrollView>
+
+        <Button
+            android:id="@+id/loginWithLimeBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/lime_48x48"
+            android:text="@string/login_with_lime"
+            />
+    </LinearLayout>
 
     <Button
         android:id="@+id/returnBtn"
