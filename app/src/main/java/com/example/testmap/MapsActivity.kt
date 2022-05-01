@@ -289,7 +289,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                             )
                             birdMarkers.add(newMarker)
                             mMap.setOnMarkerClickListener { marker ->
-                                val tagValue = marker.tag
+                                val tagValue = marker.tag as Map<String, Any>
                                 val fragment = ScooterSelect.newInstance(tagValue.get("isLime") as Boolean)
                                 val fm = supportFragmentManager
                                 val ft = fm.beginTransaction()
