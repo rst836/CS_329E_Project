@@ -12,6 +12,10 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.testmap.fragmentsManage.ManageAccountFragment
 import com.example.testmap.api.HttpClient
 import com.example.testmap.api.ClientListener

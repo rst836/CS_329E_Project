@@ -32,10 +32,10 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
             transaction.commit()
 
         })
-        val returnBtn = view.findViewById<Button>(R.id.returnBtn)
-        returnBtn.setOnClickListener {
-            activity?.supportFragmentManager!!.popBackStack()
-        }
+//        val returnBtn = view.findViewById<Button>(R.id.returnBtn)
+//        returnBtn.setOnClickListener {
+//            activity?.supportFragmentManager!!.popBackStack()
+//        }
         return view
     }
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/manageAccountsFragment"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/my_accounts_menu_label" />
+
+    <item
+        android:id="@+id/map"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="@string/nearby_scooters_menu_label" />
+
+</menu>

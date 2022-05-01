@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/manageAccountsFragment">
+
+    <fragment
+        android:id="@+id/manageAccountsFragment"
+        android:name="com.example.testmap.fragmentsManage.ManageAccountFragment"
+        android:label="@string/my_accounts_menu_label"
+        tools:layout="@layout/fragment_manage_layout" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:label="@string/nearby_scooters_menu_label" />
+
+</navigation>
