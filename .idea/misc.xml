@@ -3,6 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ricky/AndroidStudioProjects/CS_329E_Project/app/src/main/res/layout/activity_maps.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/ricky/AndroidStudioProjects/CS_329E_Project/app/src/main/res/layout/fragment_bird_login1.xml" value="0.4" />
+        <entry key="..\:/Users/ricky/AndroidStudioProjects/CS_329E_Project/app/src/main/res/layout/fragment_bird_login2.xml" value="0.264" />
+        <entry key="..\:/Users/ricky/AndroidStudioProjects/CS_329E_Project/app/src/main/res/layout/fragment_bird_login3.xml" value="0.2" />
+        <entry key="..\:/Users/ricky/AndroidStudioProjects/CS_329E_Project/app/src/main/res/layout/fragment_bird_login_main.xml" value="0.2" />
+        <entry key="..\:/Users/ricky/AndroidStudioProjects/CS_329E_Project/app/src/main/res/layout/fragment_manage_app_item.xml" value="0.24547101449275363" />
+        <entry key="..\:/Users/ricky/AndroidStudioProjects/CS_329E_Project/app/src/main/res/layout/fragment_manage_layout.xml" value="0.24547101449275363" />
+        <entry key="..\:/Users/ricky/AndroidStudioProjects/CS_329E_Project/app/src/main/res/layout/fragment_scooter_select.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/ricky/AndroidStudioProjects/CS_329E_Project/app/src/main/res/layout/token.xml" value="0.10989583333333333" />
         <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.2545" />
         <entry key="app/src/main/res/drawable/ic_search_icon.xml" value="0.2985" />
         <entry key="app/src/main/res/drawable/ic_settings_icon.xml" value="0.2545" />
@@ -17,10 +26,6 @@
         <entry key="app/src/main/res/layout/fragment_bird_login_1.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_bird_login_final.xml" value="0.14907407407407408" />
         <entry key="app/src/main/res/layout/fragment_frament_manage_acc_company.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/fragment_lime_login1.xml" value="0.273542600896861" />
-        <entry key="app/src/main/res/layout/fragment_lime_login2.xml" value="0.13697916666666668" />
-        <entry key="app/src/main/res/layout/fragment_lime_login3.xml" value="0.13697916666666668" />
-        <entry key="app/src/main/res/layout/fragment_lime_login_main.xml" value="0.13697916666666668" />
         <entry key="app/src/main/res/layout/fragment_manage_acc_info_item.xml" value="0.36062927246093746" />
         <entry key="app/src/main/res/layout/fragment_manage_accounts.xml" value="0.1272644927536232" />
         <entry key="app/src/main/res/layout/fragment_manage_app_item.xml" value="0.1" />

@@ -3,16 +3,10 @@ package com.example.testmap
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
+import android.view.*
+import android.view.GestureDetector.SimpleOnGestureListener
 import android.widget.Button
-import android.widget.TextView
+import androidx.fragment.app.Fragment
 
 
 /**
@@ -29,14 +23,25 @@ class ScooterSelect : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_scooter_select, container, false)
         val but = view.findViewById<Button>(R.id.button)
+        val gesture = GestureDetector(activity, object : SimpleOnGestureListener() {
+                override fun onDoubleTap(e: MotionEvent?): Boolean {
+                    activity?.supportFragmentManager?.popBackStack()
+                    return super.onDoubleTap(e);
+                }
+
+                override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+                    return false;
+                }
+            }
+        )
+
         but.setOnClickListener {
             val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://go.bird.co"))
             startActivity(i)
         }
         view.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent): Boolean {
-                activity?.supportFragmentManager?.popBackStack()
-                return true
+                return gesture.onTouchEvent(event);
             }
         })
         return view
