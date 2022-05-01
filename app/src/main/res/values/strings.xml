@@ -49,6 +49,6 @@
     <string name="permission_required_toast">Location permission is required for this demo.</string>
 
     <!-- errors during login -->
-    <string name="lime_failed_login">Could not access your Lime account. Please try again later.</string>
-    <string name="bird_failed_login">Could not access your Bird account. Please try again later.</string>
+    <string name="lime_failed_login">Could not access the Lime authentication server. Please try again later.</string>
+    <string name="bird_failed_login">Could not access the Bird authentication server. Please try again later.</string>
 </resources>
