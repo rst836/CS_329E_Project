@@ -12,6 +12,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.testmap.PermissionUtils.PermissionDeniedDialog.newInstance
 import com.example.testmap.PermissionUtils.isPermissionGranted
@@ -47,6 +48,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private var birdMarkers = mutableListOf<Marker?>()
 
     lateinit var viewModel: TestViewModel
+    var inManage = true
 
     private val gson = GsonBuilder().create()
 
@@ -217,44 +219,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {
-            R.id.item4 -> {
-                val fragment = Feedback.newInstance()
-                val fm = supportFragmentManager
-                val ft = fm.beginTransaction()
-                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                ft.replace(R.id.map, fragment)
-                ft.addToBackStack(null);
-                ft.commit()
-                true
-            }
-            R.id.item2 -> {
-                val fragment = History.newInstance()
-                val fm = supportFragmentManager
-                val ft = fm.beginTransaction()
-                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                ft.replace(R.id.map, fragment)
-                ft.addToBackStack(null);
-                ft.commit()
-                true
-            }
-            R.id.item5 -> {
-                val fragment = ContactUs.newInstance()
-                val fm = supportFragmentManager
-                val ft = fm.beginTransaction()
-                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                ft.replace(R.id.map, fragment)
-                ft.addToBackStack(null);
-                ft.commit()
-                true
-            }
             R.id.item6 -> {
-                val fragment = ManageAccountFragment.newInstance()
-                val fm = supportFragmentManager
-                val ft = fm.beginTransaction()
-                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                ft.replace(R.id.map, fragment)
-                ft.addToBackStack(null);
-                ft.commit()
+                if (!inManage){
+                    val fragment = ManageAccountFragment.newInstance()
+                    val fm = supportFragmentManager
+                    val ft = fm.beginTransaction()
+                    ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                    ft.replace(R.id.map, fragment)
+                    val count = fm.backStackEntryCount
+                    ft.addToBackStack(null);
+                    ft.commit()
+                    inManage = true
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

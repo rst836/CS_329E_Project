@@ -2,16 +2,10 @@
     <string name="app_name">Austin Scooter Finder</string>
     <string name="ride">Ride</string>
     <string name="title_activity_maps">Austin Scooter Finder</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment_lime">Lime Scooter\n\n
     Click Button to Ride, Tap Anywhere Else to Go Back</string>
     <string name="hello_blank_fragment_bird">Bird Scooter\n\n
     Click Button to Ride, Tap Anywhere Else to Go Back</string>
-    <string name="feedback">Sample Feedback View\n\n
-    Tap to go back</string>
-    <string name="history">No recent history!!</string>
-    <string name="contactus">Please contact us for any questions or concerns at:\n\n
-    scooterapp123@gmail.com</string>
     <string name="appEmailHeader">Email</string>
     <string name="appPhoneHeader">Phone number</string>
     <string name="appCreateLoginBtn">Log in</string>
@@ -25,7 +19,7 @@
     <string name="limeLoggedIn">Logged into Lime</string>
     <string name="enterBirdEmail">Enter your Bird account email</string>
     <string name="birdLoginLoadingText">Loading...</string>
-    <string name="birdLoginCompleteText">Login complete! Press return to go to the main menu.</string>
+    <string name="birdLoginCompleteText">Login complete! Press return to go back.</string>
     <string name="birdLoginErrorText">Could not log into your Bird account. Please try again.</string>
     <string name="birdTokenInstructions">An access token will be sent by Bird to your email. This will look like a random string of characters and numbers. Copy and paste the token below:</string>
 
@@ -34,7 +28,7 @@
     <string name="limeEnterEmail">Enter your Lime account email:</string>
     <string name="limeEnterPhone">Enter your Lime account phone number:</string>
     <string name="limeLoginLoadingText">Loading...</string>
-    <string name="limeLoginCompleteText">Login complete! Press return to go to the main menu.</string>
+    <string name="limeLoginCompleteText">Login complete! Press return to go back.</string>
     <string name="limeLoginErrorText">Could not log into your Lime account. Please try again.</string>
     <string name="limeTokenInstructions">A 6-digit code will be sent by Lime to your phone number. Copy and paste the code below:</string>
 

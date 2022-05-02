@@ -36,10 +36,6 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
             transaction.commit()
         }
 
-        val returnBtn = view.findViewById<Button>(R.id.returnBtn)
-        returnBtn.setOnClickListener {
-            activity?.supportFragmentManager!!.popBackStack()
-        }
         val parActivity: Activity? = activity
         if (parActivity != null && parActivity is MapsActivity) {
             val myActivity: MapsActivity = parActivity
@@ -64,6 +60,20 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
                 }
             })
         }
+
+        val returnBtn = view.findViewById<Button>(R.id.returnBtn)
+        returnBtn.setOnClickListener {
+            val parActivity: Activity? = activity
+            if (parActivity != null && parActivity is MapsActivity) {
+                val myActivity: MapsActivity = parActivity
+                val count = activity?.supportFragmentManager!!.backStackEntryCount
+                if (count == 1) {
+                    myActivity.inManage = false
+                }
+            }
+            activity?.supportFragmentManager!!.popBackStack()
+        }
+
         return view
     }
 
