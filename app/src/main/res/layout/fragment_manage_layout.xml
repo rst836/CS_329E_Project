@@ -12,6 +12,7 @@
         android:id="@+id/manageHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:width="350sp"
         android:text="@string/manageHeaderText"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonLayout"
@@ -24,25 +25,25 @@
         android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/manageHeader"
         app:layout_constraintBottom_toTopOf="@+id/returnBtn" >
+
         <Button
             android:id="@+id/loginWithBirdBtn"
-            android:layout_width="match_parent"
+            android:layout_width="350sp"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/bird_48x48"
-            android:text="@string/login_with_bird"
-            />
+            android:text="@string/login_with_bird" />
 
 
         <Button
             android:id="@+id/loginWithLimeBtn"
-            android:layout_width="match_parent"
+            android:layout_width="350sp"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/lime_48x48"
-            android:text="@string/login_with_lime"
-            />
+            android:text="@string/login_with_lime" />
     </LinearLayout>
 
     <Button
