@@ -50,6 +50,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private var birdMarkers = mutableListOf<Marker?>()
 
     private val gson = GsonBuilder().create()
+    var birdIsLoggedIn = false
+    var limeIsLoggedIn = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

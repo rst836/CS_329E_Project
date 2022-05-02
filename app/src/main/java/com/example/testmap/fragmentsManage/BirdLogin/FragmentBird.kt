@@ -1,8 +1,6 @@
 package com.example.testmap.fragmentsManage.BirdLogin
 
-import com.example.testmap.api.HttpClient
-import com.example.testmap.api.ClientListener
-
+import android.app.Activity
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -13,7 +11,11 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.*
+import com.example.testmap.MapsActivity
 import com.example.testmap.R
+import com.example.testmap.api.ClientListener
+import com.example.testmap.api.HttpClient
+
 
 class FragmentBird: Fragment(R.layout.fragment_bird_login_main) {
 
@@ -93,6 +95,11 @@ class FragmentBird: Fragment(R.layout.fragment_bird_login_main) {
                         override fun onUpdateBirdAccess() {
                             activity?.runOnUiThread {
                                 val message = view.findViewById<TextView>(R.id.birdLoginMessage)
+                                val parActivity: Activity? = activity
+                                if (parActivity != null && parActivity is MapsActivity) {
+                                    val myActivity: MapsActivity = parActivity
+                                    myActivity.birdIsLoggedIn = true
+                                }
                                 message.setText(R.string.birdLoginCompleteText)
                                 continueBtn.setOnClickListener {
                                     activity?.supportFragmentManager!!.popBackStack()

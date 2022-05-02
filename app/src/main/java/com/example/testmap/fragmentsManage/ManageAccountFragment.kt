@@ -1,11 +1,13 @@
 package com.example.testmap.fragmentsManage
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.*
+import com.example.testmap.MapsActivity
 import com.example.testmap.R
 import com.example.testmap.fragmentsManage.BirdLogin.FragmentBird
 import com.example.testmap.fragmentsManage.LimeLogin.FragmentLime
@@ -36,6 +38,16 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
         val returnBtn = view.findViewById<Button>(R.id.returnBtn)
         returnBtn.setOnClickListener {
             activity?.supportFragmentManager!!.popBackStack()
+        }
+        val parActivity: Activity? = activity
+        if (parActivity != null && parActivity is MapsActivity) {
+            val myActivity: MapsActivity = parActivity
+            if(myActivity.birdIsLoggedIn){
+                view.findViewById<Button>(R.id.loginWithBirdBtn).setText(R.string.birdLoggedIn)
+            }
+            if(myActivity.limeIsLoggedIn){
+                view.findViewById<Button>(R.id.loginWithLimeBtn).setText(R.string.limeLoggedIn)
+            }
         }
         return view
     }

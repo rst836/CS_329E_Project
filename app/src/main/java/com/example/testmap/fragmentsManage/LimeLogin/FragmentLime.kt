@@ -1,5 +1,6 @@
 package com.example.testmap.fragmentsManage.LimeLogin
 
+import android.app.Activity
 import com.example.testmap.api.HttpClient
 import com.example.testmap.api.ClientListener
 
@@ -13,6 +14,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.*
+import com.example.testmap.MapsActivity
 import com.example.testmap.R
 import java.util.regex.Pattern
 
@@ -119,6 +121,11 @@ class FragmentLime: Fragment(R.layout.fragment_lime_login_main) {
                         override fun onUpdateLimeAccess() {
                             activity?.runOnUiThread {
                                 val message = view.findViewById<TextView>(R.id.limeLoginMessage)
+                                val parActivity: Activity? = activity
+                                if (parActivity != null && parActivity is MapsActivity) {
+                                    val myActivity: MapsActivity = parActivity
+                                    myActivity.limeIsLoggedIn = true
+                                }
                                 message.setText(R.string.limeLoginCompleteText)
                                 continueBtn.setOnClickListener {
                                     activity?.supportFragmentManager!!.popBackStack()
