@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.*
+import androidx.lifecycle.Observer
 import com.example.testmap.MapsActivity
 import com.example.testmap.R
 import java.util.regex.Pattern
@@ -38,6 +39,19 @@ class FragmentLime: Fragment(R.layout.fragment_lime_login_main) {
 
         // set the continue button action
         val continueBtn = view.findViewById<Button>(R.id.limeLoginContinueBtn)
+
+        val parActivity: Activity? = activity
+        if (parActivity != null && parActivity is MapsActivity) {
+            val myActivity: MapsActivity = parActivity
+            val limeListen = myActivity.viewModel.currLime
+            limeListen.observe(viewLifecycleOwner, Observer{
+                if (limeListen.value == true) {
+                    continueBtn.isEnabled = false
+                    continueBtn.isClickable = false
+                    continueBtn.alpha = 0.5f
+                }
+            })
+        }
 
         // update the button action
         continueBtn.setOnClickListener {
@@ -128,7 +142,6 @@ class FragmentLime: Fragment(R.layout.fragment_lime_login_main) {
                                 }
                                 message.setText(R.string.limeLoginCompleteText)
                                 continueBtn.setOnClickListener {
-                                    activity?.supportFragmentManager!!.popBackStack()
                                     activity?.supportFragmentManager!!.popBackStack()
                                     HttpClient.unsubscribe(this)
                                 }

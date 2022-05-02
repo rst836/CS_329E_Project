@@ -25,7 +25,7 @@
     <string name="limeLoggedIn">Logged into Lime</string>
     <string name="enterBirdEmail">Enter your Bird account email</string>
     <string name="birdLoginLoadingText">Loading...</string>
-    <string name="birdLoginCompleteText">Login complete! Press continue to return to the main menu.</string>
+    <string name="birdLoginCompleteText">Login complete! Press return to return to the main menu.</string>
     <string name="birdLoginErrorText">Could not log into your Bird account. Please try again.</string>
     <string name="birdTokenInstructions">An access token will be sent by Bird to your email. This will look like a random string of characters and numbers. Copy and paste the token below:</string>
 
@@ -34,7 +34,7 @@
     <string name="limeEnterEmail">Enter your Lime account email:</string>
     <string name="limeEnterPhone">Enter your Lime account phone number:</string>
     <string name="limeLoginLoadingText">Loading...</string>
-    <string name="limeLoginCompleteText">Login complete! Press continue to return to the main menu.</string>
+    <string name="limeLoginCompleteText">Login complete! Press return to return to the main menu.</string>
     <string name="limeLoginErrorText">Could not log into your Lime account. Please try again.</string>
     <string name="limeTokenInstructions">A 6-digit code will be sent by Lime to your phone number. Copy and paste the code below:</string>
 

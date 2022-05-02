@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.*
+import androidx.lifecycle.Observer
 import com.example.testmap.MapsActivity
 import com.example.testmap.R
 import com.example.testmap.api.ClientListener
@@ -33,6 +34,20 @@ class FragmentBird: Fragment(R.layout.fragment_bird_login_main) {
 
         // set the button action
         val continueBtn = view.findViewById<Button>(R.id.birdLoginContinueBtn)
+
+        val parActivity: Activity? = activity
+        if (parActivity != null && parActivity is MapsActivity) {
+            val myActivity: MapsActivity = parActivity
+            val birdListen = myActivity.viewModel.currBird
+            birdListen.observe(viewLifecycleOwner, Observer{
+                if (birdListen.value == true) {
+                    continueBtn.isEnabled = false
+                    continueBtn.isClickable = false
+                    continueBtn.alpha = 0.5f
+                }
+            })
+        }
+
         continueBtn.setOnClickListener {
             // -- HANDLE THE FIRST SUBMIT ACTION
             // read in the email
