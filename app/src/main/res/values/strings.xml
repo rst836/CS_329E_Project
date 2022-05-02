@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">testMap</string>
+    <string name="app_name">Austin Scooter Finder</string>
     <string name="ride">Ride</string>
     <string name="title_activity_maps">Austin Scooter Finder</string>
     <!-- TODO: Remove or change this placeholder text -->

@@ -3,40 +3,35 @@ package com.example.testmap
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import com.example.testmap.fragmentsManage.ManageAccountFragment
-import com.example.testmap.api.HttpClient
-import com.example.testmap.api.ClientListener
-import com.example.testmap.api.birdInterface.BirdScooter
 import com.example.testmap.PermissionUtils.PermissionDeniedDialog.newInstance
 import com.example.testmap.PermissionUtils.isPermissionGranted
-
+import com.example.testmap.api.ClientListener
+import com.example.testmap.api.HttpClient
+import com.example.testmap.api.birdInterface.BirdScooter
+import com.example.testmap.api.limeInterface.LimeScooter
+import com.example.testmap.databinding.ActivityMapsBinding
+import com.example.testmap.fragmentsManage.ManageAccountFragment
+import com.example.testmap.fragmentsManage.TestViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.example.testmap.databinding.ActivityMapsBinding
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.Marker
-import com.example.testmap.api.limeInterface.LimeScooter
-import com.example.testmap.fragmentsManage.TestViewModel
 import com.google.android.gms.maps.model.*
-import org.json.JSONArray
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.json.JSONArray
 import org.json.JSONObject
 
 
@@ -87,7 +82,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
+        val style = MapStyleOptions.loadRawResourceStyle(this, R.raw.mapstyle_night)
         mMap = googleMap
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                mMap.setMapStyle(style)
+            }
+        }
         enableMyLocation()
         mMap.setOnMyLocationButtonClickListener(this)
         mMap.setOnMyLocationClickListener(this)
