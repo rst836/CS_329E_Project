@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.testmap.fragmentsManage.ManageAccountFragment
 import com.example.testmap.api.HttpClient
 import com.example.testmap.api.ClientListener
@@ -29,6 +30,7 @@ import com.example.testmap.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import com.example.testmap.api.limeInterface.LimeScooter
+import com.example.testmap.fragmentsManage.TestViewModel
 import com.google.android.gms.maps.model.*
 import org.json.JSONArray
 import com.google.gson.GsonBuilder
@@ -49,15 +51,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private var limeMarkers = mutableListOf<Marker?>()
     private var birdMarkers = mutableListOf<Marker?>()
 
+    lateinit var viewModel: TestViewModel
+
     private val gson = GsonBuilder().create()
-    var birdIsLoggedIn = false
-    var limeIsLoggedIn = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = ViewModelProvider(this)[TestViewModel::class.java]
+        viewModel.currBird.value = false
+        viewModel.currLime.value = false
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment

@@ -124,10 +124,11 @@ class FragmentLime: Fragment(R.layout.fragment_lime_login_main) {
                                 val parActivity: Activity? = activity
                                 if (parActivity != null && parActivity is MapsActivity) {
                                     val myActivity: MapsActivity = parActivity
-                                    myActivity.limeIsLoggedIn = true
+                                    myActivity.viewModel.currLime.value = true
                                 }
                                 message.setText(R.string.limeLoginCompleteText)
                                 continueBtn.setOnClickListener {
+                                    activity?.supportFragmentManager!!.popBackStack()
                                     activity?.supportFragmentManager!!.popBackStack()
                                     HttpClient.unsubscribe(this)
                                 }

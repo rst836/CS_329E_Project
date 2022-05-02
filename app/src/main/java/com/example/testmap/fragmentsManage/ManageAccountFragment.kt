@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.*
+import androidx.lifecycle.Observer
 import com.example.testmap.MapsActivity
 import com.example.testmap.R
 import com.example.testmap.fragmentsManage.BirdLogin.FragmentBird
@@ -42,12 +43,26 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
         val parActivity: Activity? = activity
         if (parActivity != null && parActivity is MapsActivity) {
             val myActivity: MapsActivity = parActivity
-            if(myActivity.birdIsLoggedIn){
-                view.findViewById<Button>(R.id.loginWithBirdBtn).setText(R.string.birdLoggedIn)
-            }
-            if(myActivity.limeIsLoggedIn){
-                view.findViewById<Button>(R.id.loginWithLimeBtn).setText(R.string.limeLoggedIn)
-            }
+            val limeListen = myActivity.viewModel.currLime
+            val birdListen = myActivity.viewModel.currBird
+            birdListen.observe(viewLifecycleOwner, Observer{
+                if (birdListen.value == true) {
+                    val but = view.findViewById<Button>(R.id.loginWithBirdBtn)
+                    but.setText(R.string.birdLoggedIn)
+                    but.isEnabled = false
+                    but.isClickable = false
+                    but.alpha = 0.5f
+                }
+            })
+            limeListen.observe(viewLifecycleOwner, Observer{
+                if (limeListen.value == true) {
+                    val butt = view.findViewById<Button>(R.id.loginWithLimeBtn)
+                    butt.setText(R.string.limeLoggedIn)
+                    butt.isEnabled = false
+                    butt.isClickable = false
+                    butt.alpha = 0.5f
+                }
+            })
         }
         return view
     }

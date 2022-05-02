@@ -98,7 +98,7 @@ class FragmentBird: Fragment(R.layout.fragment_bird_login_main) {
                                 val parActivity: Activity? = activity
                                 if (parActivity != null && parActivity is MapsActivity) {
                                     val myActivity: MapsActivity = parActivity
-                                    myActivity.birdIsLoggedIn = true
+                                    myActivity.viewModel.currBird.value = true
                                 }
                                 message.setText(R.string.birdLoginCompleteText)
                                 continueBtn.setOnClickListener {
