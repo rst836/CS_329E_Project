@@ -4,9 +4,9 @@
     <string name="title_activity_maps">Austin Scooter Finder</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment_lime">Lime Scooter\n\n
-    Click Button to Ride, Tap to go back</string>
+    Click Button to Ride, Tap Anywhere Else to Go Back</string>
     <string name="hello_blank_fragment_bird">Bird Scooter\n\n
-    Click Button to Ride, Tap to go back</string>
+    Click Button to Ride, Tap Anywhere Else to Go Back</string>
     <string name="feedback">Sample Feedback View\n\n
     Tap to go back</string>
     <string name="history">No recent history!!</string>
@@ -16,6 +16,8 @@
     <string name="appPhoneHeader">Phone number</string>
     <string name="appCreateLoginBtn">Log in</string>
     <string name="appUpdateLoginBtn">Update login</string>
+    <string name="invalidEmail">Please enter a valid email</string>
+    <string name="invalidNumber">Please enter a valid phone number</string>
 
     <string name="birdEnterEmail">Enter the email associated with your Bird account:</string>
     <string name="birdLoginHeader">Log into your Bird account</string>
@@ -51,8 +53,8 @@
     <string name="permission_required_toast">Location permission is required for this demo.</string>
 
     <!-- errors during login -->
-    <string name="lime_failed_login">Could not access the Lime authentication server. Please try again later.</string>
-    <string name="bird_failed_login">Could not access the Bird authentication server. Please try again later.</string>
+    <string name="lime_failed_login">Could not access the Lime authentication server. Try another number/email or try again later.</string>
+    <string name="bird_failed_login">Could not access the Bird authentication server. Try another number/email or try again later.</string>
     <string name="login_with_bird">Login with Bird</string>
     <string name="login_with_lime">Login with Lime</string>
 </resources>

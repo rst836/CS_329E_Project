@@ -4,6 +4,7 @@ import com.example.testmap.api.HttpClient
 import com.example.testmap.api.ClientListener
 
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.*
 import com.example.testmap.R
+import java.util.regex.Pattern
+
+const val REG = "(?<!\\d)\\d{10}(?!\\d)"
+var PATTERN: Pattern = Pattern.compile(REG)
 
 class FragmentLime: Fragment(R.layout.fragment_lime_login_main) {
 
@@ -50,7 +55,7 @@ class FragmentLime: Fragment(R.layout.fragment_lime_login_main) {
                 }
             }
 
-            if (idInfo != "") {
+            if ((loginMethod == "email" && idInfo.isValidEmail()) || (loginMethod == "phone" && idInfo.isPhoneNumber())) {
 
                 HttpClient.subscribe(object:ClientListener {
                     override fun onUpdateBirdResults() {
@@ -141,10 +146,18 @@ class FragmentLime: Fragment(R.layout.fragment_lime_login_main) {
                     HttpClient.subscribe(limeListener)
 
                 }
+            } else{
+                if (loginMethod == "email"){
+                    Toast.makeText(context, R.string.invalidEmail, Toast.LENGTH_LONG).show()
+                } else{
+                    Toast.makeText(context, R.string.invalidNumber, Toast.LENGTH_LONG).show()
+                }
             }
         }
 
 
         return view
     }
+    private fun CharSequence?.isValidEmail() = !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+    private fun CharSequence.isPhoneNumber() : Boolean = PATTERN.matcher(this).find()
 }
