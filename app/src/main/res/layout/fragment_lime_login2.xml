@@ -6,13 +6,15 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragmentsManage.LimeLogin.FragmentLogin2">
+    tools:context=".fragmentsManage.LimeLogin.FragmentLogin2"
+    android:background="?android:windowBackground">
 
     <TextView
         android:id="@+id/limeTokenInstructions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/limeTokenInstructions"
+        android:textColor="?android:textColorPrimary"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,6 +26,7 @@
         android:layout_height="wrap_content"
         android:autofillHints="@string/enterTokenHint"
         android:hint="@string/enterTokenHint"
+        android:textColor="?android:textColorPrimary"
         android:inputType="text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -11,13 +11,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:background="?android:windowBackground">
 
         <TextView
             android:layout_width="405dp"
             android:layout_height="200dp"
             android:layout_marginTop="16dp"
             android:text="@string/contactus"
+            android:textColor="?android:textColorPrimary"
             android:textAlignment="center"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"

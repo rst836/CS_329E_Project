@@ -5,7 +5,7 @@
     android:id="@+id/manageAccountsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="?android:windowBackground"
     app:flow_verticalBias="10">
 
     <TextView
@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:width="350sp"
         android:text="@string/manageHeaderText"
+        android:textColor = "?android:textColorPrimary"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonLayout"
         app:layout_constraintEnd_toEndOf="parent"
