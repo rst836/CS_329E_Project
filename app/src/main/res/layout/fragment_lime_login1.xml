@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragmentsManage.LimeLogin.FragmentLogin1">
+    tools:context=".fragmentsManage.LimeLogin.FragmentLogin1"
+    android:background="?android:windowBackground">
 
     <RadioGroup
         android:layout_width="match_parent"
@@ -15,7 +16,8 @@
             android:id="@+id/radioPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_with_phone_number" />
+            android:text="@string/login_with_phone_number"
+            android:textColor="?android:textColorPrimary"/>
 
         <EditText
             android:id="@+id/enterLimePhone"
@@ -24,6 +26,7 @@
             android:autofillHints="@string/limeEnterPhone"
             android:ems="10"
             android:hint="@string/limeEnterPhone"
+            android:textColor="?android:textColorPrimary"
             android:inputType="phone"
             android:textSize="16sp" />
 
@@ -32,7 +35,8 @@
             android:id="@+id/radioEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_with_email" />
+            android:text="@string/login_with_email"
+            android:textColor="?android:textColorPrimary"/>
 
         <EditText
             android:id="@+id/enterLimeEmail"
@@ -40,6 +44,7 @@
             android:layout_height="59dp"
             android:autofillHints="@string/limeEnterPhone"
             android:hint="@string/limeEnterEmail"
+            android:textColor="?android:textColorPrimary"
             android:inputType="textEmailAddress"
             android:textSize="16sp" />
 

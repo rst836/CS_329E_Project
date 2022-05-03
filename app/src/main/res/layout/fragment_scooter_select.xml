@@ -11,16 +11,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#68000000">
+        android:background="?android:windowBackground">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="300dp"
             android:layout_height="200dp"
             android:background="@drawable/share_rounded_corner_with_border"
-            android:backgroundTint="#FFFFFF"
+            android:backgroundTint="?android:windowBackground"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

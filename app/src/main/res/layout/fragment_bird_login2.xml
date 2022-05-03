@@ -5,6 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:windowBackground"
     tools:context=".fragmentsManage.BirdLogin.BirdLogin2Fragment">
 
     <TextView
@@ -12,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/birdTokenInstructions"
+        android:textColor="?android:textColorPrimary"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +25,7 @@
         android:layout_height="wrap_content"
         android:autofillHints="@string/enterTokenHint"
         android:hint="@string/enterTokenHint"
+        android:textColor="?android:textColorPrimary"
         android:inputType="text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
