@@ -92,6 +92,12 @@ class FragmentLime: Fragment(R.layout.fragment_lime_login_main) {
 
                     override fun onFailedLimeAccess() {
                         activity?.runOnUiThread {
+                            val message = view.findViewById<TextView>(R.id.limeLoginMessage)
+                            val parActivity: Activity? = activity
+                            if (parActivity != null && parActivity is MapsActivity) {
+                                val myActivity: MapsActivity = parActivity
+                                myActivity.viewModel.nextFrag.value = false
+                            }
                             activity?.supportFragmentManager!!.popBackStack()
                             Toast.makeText(context, R.string.lime_failed_login, Toast.LENGTH_LONG).show()
                         }
@@ -152,6 +158,11 @@ class FragmentLime: Fragment(R.layout.fragment_lime_login_main) {
                         override fun onFailedLimeAccess() {
                             activity?.runOnUiThread {
                                 val message = view.findViewById<TextView>(R.id.limeLoginMessage)
+                                val parActivity: Activity? = activity
+                                if (parActivity != null && parActivity is MapsActivity) {
+                                    val myActivity: MapsActivity = parActivity
+                                    myActivity.viewModel.nextFrag.value = false
+                                }
                                 message.setText(R.string.limeLoginErrorText)
                                 continueBtn.setOnClickListener {
                                     activity?.supportFragmentManager!!.popBackStack()

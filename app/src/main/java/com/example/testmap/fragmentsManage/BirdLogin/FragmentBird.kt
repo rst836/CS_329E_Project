@@ -69,6 +69,12 @@ class FragmentBird: Fragment(R.layout.fragment_bird_login_main) {
 
                     override fun onFailedBirdAccess() {
                         activity?.runOnUiThread {
+                            val message = view.findViewById<TextView>(R.id.birdLoginMessage)
+                            val parActivity: Activity? = activity
+                            if (parActivity != null && parActivity is MapsActivity) {
+                                val myActivity: MapsActivity = parActivity
+                                myActivity.viewModel.nextFrag.value = false
+                            }
                             activity?.supportFragmentManager!!.popBackStack()
                             Toast.makeText(context, R.string.bird_failed_login, Toast.LENGTH_LONG).show()
                         }
@@ -127,6 +133,11 @@ class FragmentBird: Fragment(R.layout.fragment_bird_login_main) {
                         override fun onFailedBirdAccess() {
                             activity?.runOnUiThread{
                                 val message = view.findViewById<TextView>(R.id.birdLoginMessage)
+                                val parActivity: Activity? = activity
+                                if (parActivity != null && parActivity is MapsActivity) {
+                                    val myActivity: MapsActivity = parActivity
+                                    myActivity.viewModel.nextFrag.value = false
+                                }
                                 message.setText(R.string.birdLoginErrorText)
                                 continueBtn.setOnClickListener {
                                     activity?.supportFragmentManager!!.popBackStack()
