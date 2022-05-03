@@ -96,13 +96,14 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
             val parActivity: Activity? = activity
             if (parActivity != null && parActivity is MapsActivity) {
                 val myActivity: MapsActivity = parActivity
-                val count = activity?.supportFragmentManager!!.backStackEntryCount
+                val count = myActivity.supportFragmentManager.backStackEntryCount
                 if (count == 1) {
                     myActivity.viewModel.inManage.value = false
                     myActivity.mMap.uiSettings.setAllGesturesEnabled(true)
                 } else if (count == 2) {
                     myActivity.viewModel.nextFrag.value = false
                 }
+                myActivity.updateScootersInView()
             }
             activity?.supportFragmentManager!!.popBackStack()
         }
