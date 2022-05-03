@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
 import com.example.testmap.MapsActivity
 import com.example.testmap.R
 import com.example.testmap.fragmentsManage.BirdLogin.FragmentBird
 import com.example.testmap.fragmentsManage.LimeLogin.FragmentLime
+
 
 class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
 
@@ -98,14 +100,31 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
                 if (count == 1) {
                     myActivity.inManage = false
                     myActivity.mMap.uiSettings.setAllGesturesEnabled(true)
-                }
-                else if (count == 2){
+                } else if (count == 2) {
                     myActivity.viewModel.nextFrag.value = false
                 }
             }
             activity?.supportFragmentManager!!.popBackStack()
         }
 
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true // default to enabled
+        ) {
+            override fun handleOnBackPressed() {
+                val parActivity: Activity? = activity
+                if (parActivity != null && parActivity is MapsActivity) {
+                    val myActivity: MapsActivity = parActivity
+                    val count = activity?.supportFragmentManager!!.backStackEntryCount
+                    if (count == 1) {
+                        myActivity.inManage = false
+                        myActivity.mMap.uiSettings.setAllGesturesEnabled(true)
+                    } else if (count == 2) {
+                        myActivity.viewModel.nextFrag.value = false
+                    }
+                }
+                activity?.supportFragmentManager!!.popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
         return view
     }
 
