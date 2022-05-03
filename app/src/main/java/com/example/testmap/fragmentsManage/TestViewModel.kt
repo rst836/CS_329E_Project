@@ -13,4 +13,7 @@ class TestViewModel: ViewModel() {
     val nextFrag: MutableLiveData<Boolean> by lazy{
         MutableLiveData<Boolean>()
     }
+    val inManage: MutableLiveData<Boolean> by lazy{
+        MutableLiveData<Boolean>()
+    }
 }

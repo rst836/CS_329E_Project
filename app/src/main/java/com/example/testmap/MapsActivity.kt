@@ -48,7 +48,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private var birdMarkers = mutableListOf<Marker?>()
 
     lateinit var viewModel: TestViewModel
-    var inManage = true
 
     private val gson = GsonBuilder().create()
 
@@ -61,6 +60,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         viewModel.currBird.value = false
         viewModel.currLime.value = false
         viewModel.nextFrag.value = false
+        viewModel.inManage.value = true
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -221,7 +221,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         // Handle item selection
         return when (item.itemId) {
             R.id.item6 -> {
-                if (!inManage){
+                if (viewModel.inManage.value == false){
                     val fragment = ManageAccountFragment.newInstance()
                     val fm = supportFragmentManager
                     val ft = fm.beginTransaction()
@@ -229,8 +229,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                     ft.replace(R.id.map, fragment)
                     ft.addToBackStack(null);
                     ft.commit()
-                    inManage = true
+                    viewModel.inManage.value = true
                     mMap.uiSettings.setAllGesturesEnabled(false)
+                    mMap.setOnMarkerClickListener { true }
                 }
                 true
             }

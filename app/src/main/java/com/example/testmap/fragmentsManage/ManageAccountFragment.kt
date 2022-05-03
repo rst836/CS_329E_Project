@@ -98,7 +98,7 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
                 val myActivity: MapsActivity = parActivity
                 val count = activity?.supportFragmentManager!!.backStackEntryCount
                 if (count == 1) {
-                    myActivity.inManage = false
+                    myActivity.viewModel.inManage.value = false
                     myActivity.mMap.uiSettings.setAllGesturesEnabled(true)
                 } else if (count == 2) {
                     myActivity.viewModel.nextFrag.value = false
@@ -115,7 +115,7 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
                     val myActivity: MapsActivity = parActivity
                     val count = activity?.supportFragmentManager!!.backStackEntryCount
                     if (count == 1) {
-                        myActivity.inManage = false
+                        myActivity.viewModel.inManage.value = false
                         myActivity.mMap.uiSettings.setAllGesturesEnabled(true)
                     } else if (count == 2) {
                         myActivity.viewModel.nextFrag.value = false
