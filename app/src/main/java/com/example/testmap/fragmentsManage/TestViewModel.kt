@@ -10,4 +10,7 @@ class TestViewModel: ViewModel() {
     val currLime: MutableLiveData<Boolean> by lazy{
         MutableLiveData<Boolean>()
     }
+    val nextFrag: MutableLiveData<Boolean> by lazy{
+        MutableLiveData<Boolean>()
+    }
 }

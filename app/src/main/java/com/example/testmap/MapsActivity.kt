@@ -41,7 +41,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     GoogleMap.OnMyLocationClickListener {
 
     private var permissionDenied = false
-    private lateinit var mMap: GoogleMap
+    lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
 
     private var limeMarkers = mutableListOf<Marker?>()
@@ -60,6 +60,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         viewModel = ViewModelProvider(this)[TestViewModel::class.java]
         viewModel.currBird.value = false
         viewModel.currLime.value = false
+        viewModel.nextFrag.value = false
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -97,7 +98,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         val positionUT = LatLng(30.2862, -97.7394)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(positionUT, 17f))
         mMap.setOnCameraIdleListener(this@MapsActivity)
-
+        mMap.uiSettings.setAllGesturesEnabled(false)
     }
 
     @SuppressLint("MissingPermission")
@@ -226,10 +227,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                     val ft = fm.beginTransaction()
                     ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                     ft.replace(R.id.map, fragment)
-                    val count = fm.backStackEntryCount
                     ft.addToBackStack(null);
                     ft.commit()
                     inManage = true
+                    mMap.uiSettings.setAllGesturesEnabled(false)
                 }
                 true
             }

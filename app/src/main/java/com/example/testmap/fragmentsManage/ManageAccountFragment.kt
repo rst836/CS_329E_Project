@@ -27,6 +27,11 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
             transaction.addToBackStack(null)
             transaction.replace(R.id.manageAccountsFragment, FragmentBird())
             transaction.commit()
+            val parActivity: Activity? = activity
+            if (parActivity != null && parActivity is MapsActivity) {
+                val myActivity: MapsActivity = parActivity
+                myActivity.viewModel.nextFrag.value = true
+            }
         }
 
         view.findViewById<Button>(R.id.loginWithLimeBtn).setOnClickListener {
@@ -34,6 +39,11 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
             transaction.addToBackStack(null)
             transaction.replace(R.id.manageAccountsFragment, FragmentLime())
             transaction.commit()
+            val parActivity: Activity? = activity
+            if (parActivity != null && parActivity is MapsActivity) {
+                val myActivity: MapsActivity = parActivity
+                myActivity.viewModel.nextFrag.value = true
+            }
         }
 
         val parActivity: Activity? = activity
@@ -41,9 +51,28 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
             val myActivity: MapsActivity = parActivity
             val limeListen = myActivity.viewModel.currLime
             val birdListen = myActivity.viewModel.currBird
+            val nextFrag = myActivity.viewModel.nextFrag
+            val but = view.findViewById<Button>(R.id.loginWithBirdBtn)
+            val butt = view.findViewById<Button>(R.id.loginWithLimeBtn)
+            nextFrag.observe(viewLifecycleOwner, Observer{
+                if (nextFrag.value == true){
+                    but.isEnabled = false
+                    but.isClickable = false
+                    butt.isEnabled = false
+                    butt.isClickable = false
+                } else{
+                    if (birdListen.value == false){
+                        but.isEnabled = true
+                        but.isClickable = true
+                    }
+                    if (limeListen.value == false){
+                        butt.isEnabled = true
+                        butt.isClickable = true
+                    }
+                }
+            })
             birdListen.observe(viewLifecycleOwner, Observer{
                 if (birdListen.value == true) {
-                    val but = view.findViewById<Button>(R.id.loginWithBirdBtn)
                     but.setText(R.string.birdLoggedIn)
                     but.isEnabled = false
                     but.isClickable = false
@@ -52,7 +81,6 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
             })
             limeListen.observe(viewLifecycleOwner, Observer{
                 if (limeListen.value == true) {
-                    val butt = view.findViewById<Button>(R.id.loginWithLimeBtn)
                     butt.setText(R.string.limeLoggedIn)
                     butt.isEnabled = false
                     butt.isClickable = false
@@ -69,6 +97,10 @@ class ManageAccountFragment:Fragment(R.layout.fragment_manage_layout) {
                 val count = activity?.supportFragmentManager!!.backStackEntryCount
                 if (count == 1) {
                     myActivity.inManage = false
+                    myActivity.mMap.uiSettings.setAllGesturesEnabled(true)
+                }
+                else if (count == 2){
+                    myActivity.viewModel.nextFrag.value = false
                 }
             }
             activity?.supportFragmentManager!!.popBackStack()
