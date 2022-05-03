@@ -12,7 +12,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.testmap.PermissionUtils.PermissionDeniedDialog.newInstance
 import com.example.testmap.PermissionUtils.isPermissionGranted
@@ -29,18 +28,23 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONArray
 import org.json.JSONObject
+import kotlin.properties.Delegates
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCameraIdleListener,
     ActivityCompat.OnRequestPermissionsResultCallback, GoogleMap.OnMyLocationButtonClickListener,
     GoogleMap.OnMyLocationClickListener {
 
-    private var permissionDenied = false
+    private var permissionDenied:Boolean by Delegates.observable(false) {
+        prop, old, new ->
+
+    }
     lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
 
@@ -92,7 +96,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                 mMap.setMapStyle(style)
             }
         }
-        enableMyLocation()
+        updateScootersInView()
         mMap.setOnMyLocationButtonClickListener(this)
         mMap.setOnMyLocationClickListener(this)
         val positionUT = LatLng(30.2862, -97.7394)
@@ -102,7 +106,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     }
 
     @SuppressLint("MissingPermission")
-    private fun enableMyLocation() {
+    fun updateScootersInView() {
 
         // 1. Check if permissions are granted, if so, enable the my location layer
         if (ContextCompat.checkSelfPermission(
@@ -114,6 +118,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             mMap.isMyLocationEnabled = true
+            MainScope().launch { getScootersInView() }
             return
         }
 
@@ -177,7 +182,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
             )
         ) {
             // Enable the my location layer if the permission has been granted.
-            enableMyLocation()
+            updateScootersInView()
         } else {
             // Permission was denied. Display an error message
             // Display the missing permission error dialog when the fragments resume.
@@ -191,6 +196,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
             // Permission was not granted, display error dialog.
             showMissingPermissionError()
             permissionDenied = false
+        } else if (this::mMap.isInitialized && mMap.isMyLocationEnabled){
+            updateScootersInView()
         }
     }
 
@@ -238,7 +245,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         }
     }
 
-    suspend fun updateScootersInView() = coroutineScope {
+    suspend fun getScootersInView() = coroutineScope {
 
         launch {
             val birdIcon = BitmapDescriptorFactory.fromResource(R.drawable.bird_pin)
@@ -341,7 +348,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     }
 
     override fun onCameraIdle() {
-        runBlocking { updateScootersInView() }
+        runBlocking { getScootersInView() }
     }
 
 }

@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
 import com.example.testmap.MapsActivity
@@ -98,7 +99,9 @@ class FragmentLime: Fragment(R.layout.fragment_lime_login_main) {
                                 val myActivity: MapsActivity = parActivity
                                 myActivity.viewModel.nextFrag.value = false
                             }
-                            activity?.supportFragmentManager!!.popBackStack()
+                            activity?.findViewById<Button>(R.id.limeLoginContinueBtn)!!.setOnClickListener {
+                                activity?.supportFragmentManager!!.popBackStack()
+                            }
                             Toast.makeText(context, R.string.lime_failed_login, Toast.LENGTH_LONG).show()
                         }
                     }
@@ -130,8 +133,9 @@ class FragmentLime: Fragment(R.layout.fragment_lime_login_main) {
                         replace<FragmentLogin3>(R.id.limeLoginContainer)
                     }
                     println("replaced")
+
                     // disable the btn until further notice
-                    continueBtn.setOnClickListener {}
+                    continueBtn.isVisible = false
 
                     val limeListener = object : ClientListener {
                         override fun onUpdateBirdResults() {}
